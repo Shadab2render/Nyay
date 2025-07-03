@@ -220,8 +220,8 @@ html {
 }
 .why-box {
   background: rgba(255, 255, 255, 0.15);         /* ✨ glassmorphic */
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-radius: 16px;
   padding: 1.25rem;
   width: 100%;
