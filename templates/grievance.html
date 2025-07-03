@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nyay - Describe Grievance</title>
+  <link rel="stylesheet" href="/static/css/grievance.css" />
+</head>
+<body>
+  <div id="particles-js"></div>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-container container">
+      <div class="navbar-title">Nyay</div>
+      <div class="menu-toggle" id="mobile-menu">
+        <span></span><span></span><span></span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Centered Container -->
+  <div class="container">
+    <div class="grievance-container">
+      <h2 id="form-title">Describe Your Grievance</h2>
+
+      <form id="grievance-form" method="POST" action="/grievance">
+        <!-- Voice Input -->
+        <div class="voice-input">
+          <button type="button" id="recordBtn">🎙️</button>
+          <span id="recordStatus">Click to start recording</span>
+        </div>
+
+        <!-- Text Area -->
+        <textarea
+          id="problem"
+          name="problem"
+          placeholder="e.g. Land dispute, domestic violence, labor issue..."
+          required
+        ></textarea>
+
+        <!-- Severity Range -->
+        <label for="severity">How severe is the issue?</label>
+        <div class="severity-bar">
+          <input type="range" id="severity" name="severity" min="0" max="10" value="5" />
+          <span id="severity-value">5</span>/10
+        </div>
+
+        <!-- Continue Button -->
+        <button type="submit" class="submit-btn" id="continueBtn">Continue</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Nyay. All Rights Reserved.</p>
+  </footer>
+
+  <button id="scrollToTopBtn" title="Go to top">↑</button>
+
+  <!-- Inject language-specific text -->
+  <script>
+    const userLang = "{{ session.get('selected_language', 'en') }}";
+    const labels = {
+      en: { speak: "Speak", continue: "Continue", title: "Describe Your Grievance" },
+      hi: { speak: "बोलना", continue: "आगे जारी रखें", title: "अपनी समस्या बताएं" },
+      or: { speak: "କହନ୍ତୁ", continue: "ଆଗକୁ ବଢନ୍ତୁ", title: "ଆପଣଙ୍କର ସମସ୍ୟା ରୂପରେ ରେଖନ୍ତୁ" },
+      bn: { speak: "বলুন", continue: "চালিয়ে যান", title: "আপনার সমস্যা বলুন" },
+      ta: { speak: "பேசவும்", continue: "தொடரவும்", title: "உங்கள் பிரச்சனை சொல்லுங்கள்" },
+      te: { speak: "మాట్లాడండి", continue: "కొనసాగించండి", title: "మీ సమస్యను వివరించండి" },
+    };
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const lang = labels[userLang] || labels["en"];
+      document.getElementById("recordBtn").textContent = lang.speak;
+      document.getElementById("continueBtn").textContent = lang.continue;
+      document.getElementById("form-title").textContent = lang.title;
+    });
+  </script>
+
+  <!-- Scripts -->
+  <script src="/static/js/grievance.js" defer></script>
+  <script src="/static/js/particles.min.js"></script>
+  <script>
+    window.onload = function () {
+      particlesJS("particles-js", {
+        particles: {
+          number: { value: 360, density: { enable: true, value_area: 800 } },
+          color: { value: "#a855f7" },
+          shape: { type: "circle" },
+          opacity: {
+            value: 0.6,
+            random: true,
+            anim: { enable: true, speed: 1, opacity_min: 0.1 }
+          },
+          size: {
+            value: 3,
+            random: true,
+            anim: { enable: true, speed: 4, size_min: 0.3 }
+          },
+          line_linked: {
+            enable: true,
+            distance: 130,
+            color: "#a855f7",
+            opacity: 0.4,
+            width: 1
+          },
+          move: {
+            enable: true,
+            speed: 3.5,
+            direction: "none",
+            out_mode: "bounce",
+            bounce: true
+          }
+        },
+        interactivity: {
+          detect_on: "canvas",
+          events: {
+            onhover: { enable: true, mode: "repulse" },
+            onclick: { enable: true, mode: "push" }
+          },
+          modes: {
+            repulse: { distance: 150, duration: 0.6 },
+            push: { particles_nb: 4 }
+          }
+        },
+        retina_detect: true
+      });
+    };
+  </script>
+</body>
+</html>
