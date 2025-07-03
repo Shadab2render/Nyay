@@ -52,7 +52,7 @@ def store_language():
         f.write(f"Timestamp: {timestamp}\n")
 
     # Store language in session to use in next page
-    session["lang"] = language
+    session["selected_language"] = language  # ✅ correct
     session["name"] = name
 
     return redirect("/grievance")  # next page (to be built)
