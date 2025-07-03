@@ -1,0 +1,22 @@
+Flask==2.3.2
+gunicorn
+requests
+python-dotenv
+werkzeug
+
+# AI + GenAI
+openai>=1.0.0           # Only needed if you later use OpenAI instead of Together
+together                # Required for Together.ai API
+assemblyai              # Optional fallback STT API (keep it)
+
+# Azure
+azure-cognitiveservices-speech  # For Azure STT
+# No separate install needed for Azure Translator (it's HTTP based)
+
+# PDF + OCR + Image (For Aadhaar, FIRs, etc.)
+poppler-utils           # OS-level, not pip-installable. Mention in README for Ubuntu.
+pdf2image
+pillow
+
+# Optional future
+# twilio==8.10.0        # Skip for now unless you’re adding SMS/OTP features
