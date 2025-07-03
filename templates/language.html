@@ -1,0 +1,97 @@
+<!-- Replace your current HTML with this structure (keep style.css linked) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nyay – Justice for All</title>
+  <link rel="stylesheet" href="/static/css/language.css" />
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-container container">
+      <div class="logo">
+        <img src="/static/img/logo.webp" alt="Nyay Logo" class="logo-img" />
+        <span>Nyay</span>
+      </div>
+
+      <div class="menu-toggle" id="mobile-menu">
+        <span></span><span></span><span></span>
+      </div>
+
+      <ul class="nav-links">
+        <li><a href="#">Home</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="container hero-content">
+      <h2>Empowering Citizens Through Language and Law</h2>
+      <p>Speak your problem, we’ll translate justice.</p>
+    </div>
+  </header>
+
+  <!-- Why Choose Section -->
+  <section class="why-choose">
+    <h3>Why Choose Nyay?</h3>
+    <p class="subtitle">Nyay bridges the legal literacy gap in India using multilingual AI assistance.</p>
+    <div class="why-boxes">
+      <div class="why-box"><p>Multilingual support for legal queries</p></div>
+      <div class="why-box"><p>Voice-enabled interface for illiterate users</p></div>
+      <div class="why-box"><p>Simple, step-by-step legal solutions</p></div>
+      <div class="why-box"><p>Works on mobile + low bandwidth</p></div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features-section">
+    <div class="features-box">
+      <h3>Features</h3>
+      <p class="subtitle">More accessibility. More rights. More justice.</p>
+      <div class="features-list">
+        <div class="feature-item">Speech-to-Law Engine</div>
+        <div class="feature-item">AI Legal Assistant</div>
+        <div class="feature-item">Translation System</div>
+        <div class="feature-item">Grievance PDF Generator</div>
+        <div class="feature-item">Offline Lite Mode</div>
+        <div class="feature-item">Helpline Suggestion</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Nyay. All Rights Reserved.</p>
+  </footer>
+
+  <!-- Language Popup -->
+  <div class="enquiry-popup" id="enquiryPopup">
+    <div class="enquiry-box">
+      <button class="close-btn" id="closeEnquiry">&times;</button>
+      <h3>Select Language</h3>
+      <form id="languageForm" method="POST" action="/store_language">
+        <input type="text" name="name" placeholder="Your Name" required>
+        <select name="language" required>
+          <option value="">Choose Language</option>
+          <option value="en">English</option>
+          <option value="hi">Hindi</option>
+          <option value="or">Odia</option>
+          <option value="bn">Bengali</option>
+          <option value="ta">Tamil</option>
+          <option value="te">Telugu</option>
+        </select>
+        <button type="submit">Continue</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scroll to top -->
+  <button id="scrollToTopBtn" title="Go to top">↑</button>
+
+  <script src="/static/js/language.js" defer></script>
+</body>
+</html>
