@@ -2,7 +2,7 @@ from flask import Flask, request, render_template, redirect, url_for, session, j
 import os, uuid, base64, subprocess, requests
 from dotenv import load_dotenv
 from datetime import datetime
-
+from together import Together
 
 load_dotenv()
 
@@ -20,6 +20,8 @@ AZURE_SPEECH_ENDPOINT = os.getenv("AZURE_SPEECH_ENDPOINT")
 TOGETHER_API_KEY = os.getenv("TOGETHER_API_KEY")
 TOGETHER_MODEL = os.getenv("TOGETHER_MODEL")
 
+
+client = Together(api_key=TOGETHER_API_KEY)
 
 # === Load environment variables from .env ===
 load_dotenv()
