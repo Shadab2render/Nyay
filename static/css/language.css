@@ -44,46 +44,50 @@ html {
 }
 
 
-/* === NAVBAR === */
+/* === NAVBAR CLEANED === */
 .navbar {
   background-color: skyblue;
   color: white;
-  height: 80px;
+  height: 70px;
   padding: 0 1.5rem;
   position: sticky;
   top: 0;
   z-index: 1000;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
+
 .nav-container {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: center;
   width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
-.logo {
-  display: flex;
-  align-items: center;
-  font-size: 1.25rem;
+
+.navbar-title {
+  font-size: 1.4rem;
   font-weight: 600;
-  gap: 0.5rem;
+  color: white;
 }
-.logo-img {
-  height: 120px;
-  width: auto;
-  object-fit: contain;
-  border-radius: 6px;
-}
+
+/* === NAV LINKS === */
 .nav-links {
   list-style: none;
   display: flex;
   gap: 1.5rem;
 }
+
 .nav-links a {
   color: white;
   text-decoration: none;
   font-size: 1rem;
+  transition: color 0.3s ease;
+}
+.nav-links a:hover {
+  color: #e0f2ff;
 }
 
 /* === HAMBURGER MENU === */
@@ -101,12 +105,6 @@ html {
 
 /* === RESPONSIVE NAV === */
 @media (max-width: 768px) {
-  .navbar {
-    height: 60px;
-  }
-  .logo-img {
-    height: 80px;
-  }
   .nav-links {
     display: none;
     flex-direction: column;
@@ -123,7 +121,12 @@ html {
   .menu-toggle {
     display: flex;
   }
+
+  .navbar-title {
+    margin-left: 1rem;
+  }
 }
+
 
 /* === HERO SECTION === */
 .hero {
