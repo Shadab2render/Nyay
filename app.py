@@ -184,6 +184,99 @@ def transcribe_audio_base64():
         print("🔥 General Error in /transcribe:", str(e))
         return jsonify({"error": str(e)}), 500
 
+
+@app.route('/solution')
+def generate_solution():
+    from openai import OpenAI  # Only needed if you define it here
+    import os, requests
+
+    # Step 1: Fetch user grievance and language
+    grievance = session.get("problem", "").strip()
+    lang = session.get("selected_language", "en")
+    print(f"🧾 Grievance: {grievance} | 🌐 Lang: {lang}")
+
+    if not grievance:
+        return "<h2>Error: No grievance found.</h2><a href='/grievance'>🡸 Back</a>"
+
+    # Step 2: Load legal documents (as .txt)
+    try:
+        with open("documents/1.txt", "r", encoding="utf-8") as f1, \
+             open("documents/2.txt", "r", encoding="utf-8") as f2, \
+             open("documents/3.txt", "r", encoding="utf-8") as f3:
+            doc1 = f1.read()
+            doc2 = f2.read()
+            doc3 = f3.read()
+    except Exception as e:
+        return f"<h2>Document Load Error</h2><p>{str(e)}</p>"
+
+    # Step 3: Construct a powerful prompt
+    prompt = f"""
+You are an AI legal assistant helping citizens in India.
+
+Below are three official legal references. Do not use any other data or hallucinate facts.
+
+--- Document 1 ---
+{doc1[:4000]}
+--- Document 2 ---
+{doc2[:4000]}
+--- Document 3 ---
+{doc3[:4000]}
+
+Based only on the above documents, please respond to the following user grievance:
+
+"{grievance}"
+
+Instructions:
+- Provide helpful, legally accurate, and concise advice.
+- Mention applicable rights, acts, or remedies (if available in the docs).
+- Use formal but simple language.
+- Do NOT generate fake law or add assumptions.
+- If unclear or insufficient info, suggest legal aid or helpline.
+
+Your response must be realistic, policy-based, and focused on empowering the citizen.
+"""
+
+    print("🧠 Sending prompt to LLM...")
+
+    # Step 4: Query LLM (Together.ai or other)
+    try:
+        response = client.chat.completions.create(
+            model="meta-llama/Llama-3.3-70B-Instruct-Turbo-Free",
+            messages=[{"role": "user", "content": prompt}]
+        )
+        solution_english = response.choices[0].message.content.strip()
+        print("✅ LLM Response:\n", solution_english)
+    except Exception as e:
+        print("❌ LLM Error:", str(e))
+        return f"<h2>AI Error</h2><p>{str(e)}</p>"
+
+    # Step 5: Translate if needed
+    if lang != "en":
+        try:
+            print("🌍 Translating to:", lang)
+            trans_url = f"{AZURE_TRANSLATOR_ENDPOINT}/translate?api-version=3.0&to={lang}"
+            trans_headers = {
+                "Ocp-Apim-Subscription-Key": AZURE_TRANSLATOR_KEY,
+                "Ocp-Apim-Subscription-Region": AZURE_TRANSLATOR_REGION,
+                "Content-Type": "application/json"
+            }
+            trans_body = [{"Text": solution_english}]
+            trans_res = requests.post(trans_url, headers=trans_headers, json=trans_body)
+            translated = trans_res.json()[0]["translations"][0]["text"]
+        except Exception as e:
+            print("⚠️ Translation failed:", str(e))
+            translated = solution_english
+    else:
+        translated = solution_english
+
+    # Step 6: Render solution.html
+    return render_template("solution.html",
+        original_text=solution_english,
+        translated_text=translated,
+        lang=lang
+    )
+
+
 # === Run App ===
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
