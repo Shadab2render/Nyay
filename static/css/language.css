@@ -195,34 +195,45 @@ html {
 
 /* === WHY CHOOSE US === */
 .why-choose {
-  background-color: rgb(213, 232, 240);
+  background: rgba(255, 255, 255, 0.05); /* slight fog */
+  backdrop-filter: blur(2px);            /* ✨ frosted glass */
+  -webkit-backdrop-filter: blur(2px);
   padding: 3rem 1rem;
   text-align: center;
   position: relative;
-  z-index: 5;
+  z-index: 1;
 }
-.why-choose h3 {
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
-}
+.why-choose h3,
 .why-choose .subtitle {
-  font-size: 1rem;
-  color: #4b5563;
-  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 5;
+  color: #1a1a1a;
 }
+
 .why-boxes {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 1.5rem;
+  z-index: 5;
+  position: relative;
 }
 .why-box {
-  background: #ffffff;
-  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.15);         /* ✨ glassmorphic */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 16px;
   padding: 1.25rem;
   width: 100%;
   max-width: 360px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  z-index: 5;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: transform 0.3s ease;
+}
+.why-box:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
 }
 .why-box p {
   font-size: 0.95rem;
