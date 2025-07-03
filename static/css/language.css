@@ -241,23 +241,27 @@ html {
   line-height: 1.6;
 }
 
-/* === FEATURES === */
 .features-section {
-  background-color: #ffffff;
+  background: rgba(255, 255, 255, 0.05); /* transparent fog */
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
   padding: 3rem 1rem;
   display: flex;
   justify-content: center;
   position: relative;
-  z-index: 5;
+  z-index: 1;
 }
 .features-box {
   max-width: 1000px;
   text-align: center;
+  z-index: 5;
+  position: relative;
 }
 .features-box h3 {
   font-size: 1.4rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
+  color: #1a1a1a;
 }
 .features-box .subtitle {
   font-size: 1rem;
@@ -269,16 +273,26 @@ html {
   flex-wrap: wrap;
   justify-content: center;
   gap: 1rem;
+  z-index: 5;
+  position: relative;
 }
 .feature-item {
-  background-color: #f0f4f8;
-  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 16px;
   padding: 1rem 1.5rem;
   font-size: 0.95rem;
   color: #333;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   flex: 1 1 250px;
   max-width: 300px;
+  transition: transform 0.3s ease;
+}
+.feature-item:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
 }
 
 /* === FOOTER === */
