@@ -1,32 +1,32 @@
-<!-- Replace your current HTML with this structure (keep style.css linked) -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nyay – Justice for All</title>
+
+  <!-- Styles -->
   <link rel="stylesheet" href="/static/css/language.css" />
 </head>
 
 <body>
+  <!-- Particle Background -->
+  <div id="particles-js"></div>
 
-<!-- Navbar -->
- 
-<nav class="navbar">
-  <div class="nav-container container">
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-container container">
+      <div class="navbar-title">Nyay</div>
 
-    <div class="navbar-title">Nyay</div>
+      <div class="menu-toggle" id="mobile-menu">
+        <span></span><span></span><span></span>
+      </div>
 
-    <div class="menu-toggle" id="mobile-menu">
-      <span></span><span></span><span></span>
+      <ul class="nav-links">
+        <li><a href="#">Home</a></li>
+      </ul>
     </div>
-
-    <ul class="nav-links">
-      <li><a href="#">Home</a></li>
-    </ul>
-  </div>
-</nav>
-
+  </nav>
 
   <!-- Hero Section -->
   <header class="hero">
@@ -69,35 +69,80 @@
     <p>&copy; 2025 Nyay. All Rights Reserved.</p>
   </footer>
 
-  <!-- Language Popup -->
-<div class="enquiry-popup" id="enquiryPopup">
-  <div class="enquiry-box">
-    <button class="close-btn" id="closeEnquiry">&times;</button>
-    <h3>Select Language</h3>
-
-    <form id="languageForm" method="POST" action="/store_language">
-      <!-- Optional Name Input -->
-      <input type="text" name="name" placeholder="Your Name" required>
-
-      <!-- Language Button Grid -->
-      <div class="language-options">
-        <button type="submit" name="language" value="en">English</button>
-        <button type="submit" name="language" value="hi">हिन्दी</button>
-        <button type="submit" name="language" value="or">ଓଡ଼ିଆ</button>
-        <button type="submit" name="language" value="bn">বাংলা</button>
-        <button type="submit" name="language" value="ta">தமிழ்</button>
-        <button type="submit" name="language" value="te">తెలుగు</button>
-      </div>
-    </form>
-
+  <!-- Language Selection Popup -->
+  <div class="enquiry-popup" id="enquiryPopup">
+    <div class="enquiry-box">
+      <button class="close-btn" id="closeEnquiry">&times;</button>
+      <h3>Select Language</h3>
+      <form id="languageForm" method="POST" action="/store_language">
+        <input type="text" name="name" placeholder="Your Name" required>
+        <div class="language-options">
+          <button type="submit" name="language" value="en">English</button>
+          <button type="submit" name="language" value="hi">हिन्दी</button>
+          <button type="submit" name="language" value="or">ଓଡ଼ିଆ</button>
+          <button type="submit" name="language" value="bn">বাংলা</button>
+          <button type="submit" name="language" value="ta">தமிழ்</button>
+          <button type="submit" name="language" value="te">తెలుగు</button>
+        </div>
+      </form>
+    </div>
   </div>
-</div>
 
+  <!-- Reopen Language Popup Button -->
+  <button id="reopenPopupBtn" title="Change Language">🌐 Change Language</button>
 
-
-  <!-- Scroll to top -->
+  <!-- Scroll to Top -->
   <button id="scrollToTopBtn" title="Go to top">↑</button>
 
+  <!-- JS Scripts -->
   <script src="/static/js/language.js" defer></script>
+  <script src="/static/js/particles.min.js"></script>
+  <script>
+    window.onload = function () {
+      particlesJS("particles-js", {
+        "particles": {
+          "number": { "value": 360, "density": { "enable": true, "value_area": 800 } },
+          "color": { "value": "#a855f7" },
+          "shape": { "type": "circle" },
+          "opacity": {
+            "value": 0.6,
+            "random": true,
+            "anim": { "enable": true, "speed": 1, "opacity_min": 0.1 }
+          },
+          "size": {
+            "value": 3,
+            "random": true,
+            "anim": { "enable": true, "speed": 4, "size_min": 0.3 }
+          },
+          "line_linked": {
+            "enable": true,
+            "distance": 130,
+            "color": "#a855f7",
+            "opacity": 0.4,
+            "width": 1
+          },
+          "move": {
+            "enable": true,
+            "speed": 3.5,
+            "direction": "none",
+            "out_mode": "bounce",
+            "bounce": true
+          }
+        },
+        "interactivity": {
+          "detect_on": "canvas",
+          "events": {
+            "onhover": { "enable": true, "mode": "repulse" },
+            "onclick": { "enable": true, "mode": "push" }
+          },
+          "modes": {
+            "repulse": { "distance": 150, "duration": 0.6 },
+            "push": { "particles_nb": 4 }
+          }
+        },
+        "retina_detect": true
+      });
+    };
+  </script>
 </body>
 </html>
