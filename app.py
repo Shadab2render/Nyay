@@ -75,25 +75,52 @@ def grievance():
 
 # 🎙 /transcribe Route
 @app.route('/transcribe', methods=['POST'])
-def transcribe_audio():
+def transcribe_audio_base64():
     try:
+        print("📩 Transcribe route hit!")
+
         data = request.get_json(force=True)
+        print("📥 Raw incoming JSON:", data)
+
         audio_base64 = data.get("audio")
         language_code = data.get("language", "en-IN")
 
         if not audio_base64:
-            return jsonify({"error": "No audio provided"}), 400
+            print("❗ No audio data found in request.")
+            return jsonify({"error": "No audio data provided"}), 400
 
-        # Save raw audio
-        raw_path = f"static/uploads/{uuid.uuid4().hex}.webm"
-        with open(raw_path, "wb") as f:
-            f.write(base64.b64decode(audio_base64))
+        print("✅ Base64 and language received. Language code:", language_code)
 
-        # Convert to WAV
-        wav_path = raw_path.replace(".webm", ".wav")
-        subprocess.run(["ffmpeg", "-y", "-i", raw_path, "-ac", "1", "-ar", "16000", wav_path], check=True)
+        # Step 1: Decode base64 audio
+        try:
+            audio_bytes = base64.b64decode(audio_base64)
+            print("✅ Audio base64 decoded.")
+        except Exception as decode_err:
+            print("❌ Failed to decode base64:", decode_err)
+            return jsonify({"error": "Invalid base64 format"}), 400
 
-        # Azure STT
+        # Step 2: Save raw audio
+        raw_audio_path = f"static/uploads/raw_{uuid.uuid4().hex}.webm"
+        try:
+            with open(raw_audio_path, "wb") as f:
+                f.write(audio_bytes)
+            print(f"💾 Raw audio saved at {raw_audio_path}")
+        except Exception as file_err:
+            print("❌ Failed to save raw audio:", file_err)
+            return jsonify({"error": "Failed to save audio"}), 500
+
+        # Step 3: Convert to WAV
+        wav_audio_path = raw_audio_path.replace(".webm", ".wav")
+        ffmpeg_cmd = ["ffmpeg", "-y", "-i", raw_audio_path, "-ac", "1", "-ar", "16000", wav_audio_path]
+        print("⚙️ Running ffmpeg:", ' '.join(ffmpeg_cmd))
+        try:
+            subprocess.run(ffmpeg_cmd, check=True)
+            print(f"🎧 Converted WAV saved at {wav_audio_path}")
+        except subprocess.CalledProcessError as e:
+            print("❌ FFmpeg conversion failed:", e)
+            return jsonify({"error": "Audio conversion failed"}), 500
+
+        # Step 4: Send to Azure STT
         stt_url = f"https://{AZURE_SPEECH_REGION}.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1"
         headers = {
             "Ocp-Apim-Subscription-Key": AZURE_SPEECH_KEY,
@@ -102,35 +129,59 @@ def transcribe_audio():
         }
         params = { "language": language_code }
 
-        with open(wav_path, 'rb') as audio_file:
-            stt_response = requests.post(stt_url, headers=headers, params=params, data=audio_file)
+        print("🌐 Sending audio to Azure STT:", stt_url)
+        try:
+            with open(wav_audio_path, 'rb') as audio_file:
+                stt_response = requests.post(stt_url, headers=headers, params=params, data=audio_file)
+        except Exception as azure_err:
+            print("❌ Error calling Azure STT:", azure_err)
+            return jsonify({"error": "Azure STT request failed"}), 500
+
+        print("🔁 Azure STT Status:", stt_response.status_code)
+        print("🔊 Azure STT Raw Response:", stt_response.text)
 
         stt_data = stt_response.json()
         original_text = stt_data.get("DisplayText", "")
 
         if not original_text:
-            return jsonify({"error": "No text transcribed"}), 500
+            print("⚠️ Azure STT returned no text.")
+            return jsonify({"error": "Speech recognition returned empty text"}), 500
 
-        # Translate if not English
+        print("🗣️ Transcribed:", original_text)
+
+        # Step 5: Translate (if not English)
         if language_code.startswith("en"):
-            return jsonify({ "original_text": original_text, "translated_text": original_text })
+            translated_text = original_text
+            print("🌐 Translation skipped (language is English)")
+        else:
+            trans_url = f"{AZURE_TRANSLATOR_ENDPOINT}/translate?api-version=3.0&to=en"
+            trans_headers = {
+                "Ocp-Apim-Subscription-Key": AZURE_TRANSLATOR_KEY,
+                "Ocp-Apim-Subscription-Region": AZURE_TRANSLATOR_REGION,
+                "Content-Type": "application/json"
+            }
+            trans_body = [{"Text": original_text}]
+            print("🌍 Sending text to Azure Translator:", trans_url)
+            try:
+                trans_response = requests.post(trans_url, headers=trans_headers, json=trans_body)
+                print("🌍 Translator Status:", trans_response.status_code)
+                print("🌍 Translator Raw Response:", trans_response.text)
+                trans_data = trans_response.json()
+                translated_text = trans_data[0]["translations"][0]["text"]
+            except Exception as translate_err:
+                print("⚠️ Translation failed. Showing original only.")
+                translated_text = original_text
 
-        trans_url = f"{AZURE_TRANSLATOR_ENDPOINT}/translate?api-version=3.0&to=en"
-        trans_headers = {
-            "Ocp-Apim-Subscription-Key": AZURE_TRANSLATOR_KEY,
-            "Ocp-Apim-Subscription-Region": AZURE_TRANSLATOR_REGION,
-            "Content-Type": "application/json"
-        }
-        trans_body = [{ "Text": original_text }]
-        trans_response = requests.post(trans_url, headers=trans_headers, json=trans_body)
-        translated_text = trans_response.json()[0]["translations"][0]["text"]
+        print("✅ Final translated text:", translated_text)
 
-        return jsonify({ "original_text": original_text, "translated_text": translated_text })
+        return jsonify({
+            "original_text": original_text,
+            "translated_text": translated_text
+        })
 
-    except subprocess.CalledProcessError as e:
-        return jsonify({ "error": "Audio conversion failed", "details": str(e) }), 500
     except Exception as e:
-        return jsonify({ "error": str(e) }), 500
+        print("🔥 General Error in /transcribe:", str(e))
+        return jsonify({"error": str(e)}), 500
 
 # === Run App ===
 if __name__ == "__main__":
