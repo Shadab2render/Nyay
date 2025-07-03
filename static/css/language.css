@@ -241,6 +241,12 @@ html {
   line-height: 1.6;
 }
 
+.why-box p,
+.feature-item {
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+
 .features-section {
   background: rgba(255, 255, 255, 0.05); /* transparent fog */
   backdrop-filter: blur(2px);
