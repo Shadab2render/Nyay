@@ -1,6 +1,6 @@
-import os
+from flask import Flask, request, render_template, redirect, url_for, session, jsonify
+import os, uuid, base64, subprocess, requests
 from dotenv import load_dotenv
-from flask import Flask, render_template, request, redirect, session
 from datetime import datetime
 
 
@@ -58,9 +58,79 @@ def store_language():
     return redirect("/grievance")  # next page (to be built)
 
 # === Future Route for Grievance Page ===
-@app.route("/grievance")
+@app.route('/grievance', methods=['GET', 'POST'])
 def grievance():
-    return "<h2>Grievance page coming soon...</h2>"
+    if request.method == 'POST':
+        problem = request.form.get("problem")
+        severity = request.form.get("severity")
+
+        if not problem:
+            return "<h2>Please describe your grievance.</h2><a href='/grievance'>🡸 Try Again</a>"
+
+        session['problem'] = problem
+        session['severity'] = severity
+
+        return redirect(url_for('generate_solution'))  # next page placeholder
+    return render_template("grievance.html")
+
+# 🎙 /transcribe Route
+@app.route('/transcribe', methods=['POST'])
+def transcribe_audio():
+    try:
+        data = request.get_json(force=True)
+        audio_base64 = data.get("audio")
+        language_code = data.get("language", "en-IN")
+
+        if not audio_base64:
+            return jsonify({"error": "No audio provided"}), 400
+
+        # Save raw audio
+        raw_path = f"static/uploads/{uuid.uuid4().hex}.webm"
+        with open(raw_path, "wb") as f:
+            f.write(base64.b64decode(audio_base64))
+
+        # Convert to WAV
+        wav_path = raw_path.replace(".webm", ".wav")
+        subprocess.run(["ffmpeg", "-y", "-i", raw_path, "-ac", "1", "-ar", "16000", wav_path], check=True)
+
+        # Azure STT
+        stt_url = f"https://{AZURE_SPEECH_REGION}.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1"
+        headers = {
+            "Ocp-Apim-Subscription-Key": AZURE_SPEECH_KEY,
+            "Content-Type": "audio/wav",
+            "Accept": "application/json"
+        }
+        params = { "language": language_code }
+
+        with open(wav_path, 'rb') as audio_file:
+            stt_response = requests.post(stt_url, headers=headers, params=params, data=audio_file)
+
+        stt_data = stt_response.json()
+        original_text = stt_data.get("DisplayText", "")
+
+        if not original_text:
+            return jsonify({"error": "No text transcribed"}), 500
+
+        # Translate if not English
+        if language_code.startswith("en"):
+            return jsonify({ "original_text": original_text, "translated_text": original_text })
+
+        trans_url = f"{AZURE_TRANSLATOR_ENDPOINT}/translate?api-version=3.0&to=en"
+        trans_headers = {
+            "Ocp-Apim-Subscription-Key": AZURE_TRANSLATOR_KEY,
+            "Ocp-Apim-Subscription-Region": AZURE_TRANSLATOR_REGION,
+            "Content-Type": "application/json"
+        }
+        trans_body = [{ "Text": original_text }]
+        trans_response = requests.post(trans_url, headers=trans_headers, json=trans_body)
+        translated_text = trans_response.json()[0]["translations"][0]["text"]
+
+        return jsonify({ "original_text": original_text, "translated_text": translated_text })
+
+    except subprocess.CalledProcessError as e:
+        return jsonify({ "error": "Audio conversion failed", "details": str(e) }), 500
+    except Exception as e:
+        return jsonify({ "error": str(e) }), 500
 
 # === Run App ===
 if __name__ == "__main__":
