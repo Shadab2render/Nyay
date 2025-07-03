@@ -1,71 +1,52 @@
 document.addEventListener("DOMContentLoaded", function () {
   const popup = document.getElementById("enquiryPopup");
   const closeBtn = document.getElementById("closeEnquiry");
+  const reopenBtn = document.getElementById("reopenPopupBtn");
   const scrollBtn = document.getElementById("scrollToTopBtn");
+  const mobileMenuToggle = document.getElementById("mobile-menu");
+  const navLinks = document.querySelector(".nav-links");
 
   // Show popup on page load
   popup.style.display = "flex";
   document.body.classList.add("lock-scroll");
 
-  // Close popup button
-  closeBtn.addEventListener("click", () => {
-    popup.style.display = "none";
-    document.body.classList.remove("lock-scroll");
-  });
-
-  // Scroll-to-top button logic
-  window.addEventListener("scroll", () => {
-    scrollBtn.style.display = window.scrollY > 100 ? "block" : "none";
-  });
-
-  scrollBtn.addEventListener("click", () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  });
-
-  // (Optional) Animate the popup slightly on show
+  // Animate popup (fade/scale)
   setTimeout(() => {
     popup.classList.add("fade-in");
   }, 100);
-});
-
-const mobileMenuToggle = document.getElementById("mobile-menu");
-const navLinks = document.querySelector(".nav-links");
-
-if (mobileMenuToggle && navLinks) {
-  mobileMenuToggle.addEventListener("click", () => {
-    navLinks.classList.toggle("active");
-  });
-}
-document.addEventListener("DOMContentLoaded", function () {
-  const popup = document.getElementById("enquiryPopup");
-  const closeBtn = document.getElementById("closeEnquiry");
-  const reopenBtn = document.getElementById("reopenPopupBtn");
-  const scrollBtn = document.getElementById("scrollToTopBtn");
-
-  // Show popup on load
-  popup.style.display = "flex";
-  document.body.classList.add("lock-scroll");
 
   // Close popup
   closeBtn.addEventListener("click", () => {
     popup.style.display = "none";
     document.body.classList.remove("lock-scroll");
-    reopenBtn.style.display = "block"; // show reopen button
+    reopenBtn.style.display = "block";
+    reopenBtn.classList.add("pop-in");
   });
 
-  // Reopen popup on click
+  // Reopen popup
   reopenBtn.addEventListener("click", () => {
     popup.style.display = "flex";
     document.body.classList.add("lock-scroll");
-    reopenBtn.style.display = "none"; // hide again
+    reopenBtn.style.display = "none";
   });
 
   // Scroll-to-top button logic
   window.addEventListener("scroll", () => {
-    scrollBtn.style.display = window.scrollY > 100 ? "block" : "none";
+    if (window.scrollY > 100) {
+      scrollBtn.classList.add("show");
+    } else {
+      scrollBtn.classList.remove("show");
+    }
   });
 
   scrollBtn.addEventListener("click", () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
+
+  // Hamburger menu toggle
+  if (mobileMenuToggle && navLinks) {
+    mobileMenuToggle.addEventListener("click", () => {
+      navLinks.classList.toggle("active");
+    });
+  }
 });
