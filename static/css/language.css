@@ -14,6 +14,19 @@ html {
   scroll-behavior: smooth;
 }
 
+/* === PARTICLE BACKGROUND === */
+#particles-js {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  background: transparent;
+  pointer-events: none;
+}
+
+/* === LANGUAGE OPTIONS === */
 .language-options {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -21,8 +34,8 @@ html {
   margin-top: 1rem;
   margin-bottom: 1rem;
   padding: 1rem;
+  z-index: 5;
 }
-
 .language-options button {
   background: rgba(255, 255, 255, 0.85);
   color: #111;
@@ -35,14 +48,23 @@ html {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   transition: 0.3s ease;
 }
-
 .language-options button:hover {
   background-color: #1d4ed8;
   color: white;
   transform: translateY(-2px);
   box-shadow: 0 0 15px rgba(29, 78, 216, 0.4);
+  animation: glowPulse 1s ease-in-out infinite alternate;
+}
+@keyframes glowPulse {
+  from {
+    box-shadow: 0 0 10px rgba(29, 78, 216, 0.4);
+  }
+  to {
+    box-shadow: 0 0 20px rgba(29, 78, 216, 0.8);
+  }
 }
 
+/* === REOPEN BUTTON === */
 #reopenPopupBtn {
   position: fixed;
   bottom: 25px;
@@ -58,13 +80,26 @@ html {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   display: none;
   transition: 0.3s;
+  animation: none;
 }
 #reopenPopupBtn:hover {
   background-color: #2563eb;
 }
+#reopenPopupBtn.pop-in {
+  animation: popFadeIn 0.6s ease-out forwards;
+}
+@keyframes popFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
 
-
-/* === NAVBAR CLEANED === */
+/* === NAVBAR === */
 .navbar {
   background-color: skyblue;
   color: white;
@@ -72,12 +107,11 @@ html {
   padding: 0 1.5rem;
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
 .nav-container {
   display: flex;
   align-items: center;
@@ -86,20 +120,16 @@ html {
   max-width: 1200px;
   margin: 0 auto;
 }
-
 .navbar-title {
   font-size: 1.4rem;
   font-weight: 600;
   color: white;
 }
-
-/* === NAV LINKS === */
 .nav-links {
   list-style: none;
   display: flex;
   gap: 1.5rem;
 }
-
 .nav-links a {
   color: white;
   text-decoration: none;
@@ -109,8 +139,6 @@ html {
 .nav-links a:hover {
   color: #e0f2ff;
 }
-
-/* === HAMBURGER MENU === */
 .menu-toggle {
   display: none;
   flex-direction: column;
@@ -141,18 +169,18 @@ html {
   .menu-toggle {
     display: flex;
   }
-
   .navbar-title {
     margin-left: 1rem;
   }
 }
-
 
 /* === HERO SECTION === */
 .hero {
   background-color: rgb(190, 238, 250);
   padding: 5rem 1rem;
   text-align: center;
+  z-index: 5;
+  position: relative;
 }
 .hero-content h2 {
   font-size: 1.75rem;
@@ -170,6 +198,8 @@ html {
   background-color: rgb(213, 232, 240);
   padding: 3rem 1rem;
   text-align: center;
+  position: relative;
+  z-index: 5;
 }
 .why-choose h3 {
   font-size: 1.5rem;
@@ -206,6 +236,8 @@ html {
   padding: 3rem 1rem;
   display: flex;
   justify-content: center;
+  position: relative;
+  z-index: 5;
 }
 .features-box {
   max-width: 1000px;
@@ -247,6 +279,8 @@ footer {
   color: #333;
   margin-top: 3rem;
   border-top: 1px solid #ddd;
+  position: relative;
+  z-index: 5;
 }
 footer p {
   margin: 0;
@@ -254,7 +288,7 @@ footer p {
   font-weight: 400;
 }
 
-/* === LANGUAGE POPUP === */
+/* === POPUP === */
 .enquiry-popup {
   display: none;
   position: fixed;
@@ -278,7 +312,15 @@ footer p {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   color: #000;
   position: relative;
-  animation: fadeIn 0.3s ease-in-out;
+  opacity: 0;
+  transform: scale(0.95);
+  animation: fadeInScale 0.4s ease-out forwards;
+}
+@keyframes fadeInScale {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 .enquiry-box h3 {
   text-align: center;
@@ -287,8 +329,7 @@ footer p {
   font-size: 1.4rem;
   color: #1f2937;
 }
-.enquiry-box input,
-.enquiry-box select {
+.enquiry-box input {
   width: 100%;
   margin-bottom: 1rem;
   padding: 0.75rem;
@@ -323,20 +364,9 @@ footer p {
   color: #333;
   cursor: pointer;
 }
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
 
 /* === SCROLL TO TOP === */
 #scrollToTopBtn {
-  display: none;
   position: fixed;
   bottom: 25px;
   right: 25px;
@@ -349,29 +379,19 @@ footer p {
   font-size: 18px;
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  transition: background 0.3s;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  opacity: 0;
+  transform: translateY(20px);
 }
 #scrollToTopBtn:hover {
   background-color: #2563eb;
 }
+#scrollToTopBtn.show {
+  opacity: 1;
+  transform: translateY(0);
+}
 
-/* === BODY LOCK FOR POPUP === */
+/* === BODY LOCK === */
 body.lock-scroll {
   overflow: hidden;
 }
-
-/* Optional fade-in effect */
-.enquiry-popup.fade-in .enquiry-box {
-  animation: scaleIn 0.35s ease-out forwards;
-}
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
