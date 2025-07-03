@@ -187,73 +187,79 @@ def transcribe_audio_base64():
 
 @app.route('/solution')
 def generate_solution():
-    from openai import OpenAI  # Only needed if you define it here
     import os, requests
+    from openai import OpenAI
 
-    # Step 1: Fetch user grievance and language
+    print("📥 /solution route hit")
+
+    # Step 1: Fetch grievance & language from session
     grievance = session.get("problem", "").strip()
     lang = session.get("selected_language", "en")
-    print(f"🧾 Grievance: {grievance} | 🌐 Lang: {lang}")
+    print(f"🧾 Grievance: {grievance}")
+    print(f"🌐 Selected Language: {lang}")
 
     if not grievance:
+        print("❗ No grievance found in session")
         return "<h2>Error: No grievance found.</h2><a href='/grievance'>🡸 Back</a>"
 
-    # Step 2: Load legal documents (as .txt)
+    # Step 2: Load reference documents
     try:
-        with open("documents/1.txt", "r", encoding="utf-8") as f1, \
-             open("documents/2.txt", "r", encoding="utf-8") as f2, \
-             open("documents/3.txt", "r", encoding="utf-8") as f3:
+        with open("documents/cpc.txt", "r", encoding="utf-8") as f1, \
+             open("documents/contract.txt", "r", encoding="utf-8") as f2, \
+             open("documents/ipc.txt", "r", encoding="utf-8") as f3:
             doc1 = f1.read()
             doc2 = f2.read()
             doc3 = f3.read()
+        print("📚 Legal documents loaded successfully")
     except Exception as e:
+        print("❌ Error loading documents:", str(e))
         return f"<h2>Document Load Error</h2><p>{str(e)}</p>"
 
-    # Step 3: Construct a powerful prompt
+    # Step 3: Construct prompt
     prompt = f"""
-You are an AI legal assistant helping citizens in India.
+You are an AI legal assistant for Indian citizens.
 
-Below are three official legal references. Do not use any other data or hallucinate facts.
+Below are official legal documents. Only use information from these documents. Do not invent laws or advice.
 
---- Document 1 ---
+--- Code of Civil Procedure ---
 {doc1[:4000]}
---- Document 2 ---
+--- Indian Contract Act, 1872 ---
 {doc2[:4000]}
---- Document 3 ---
+--- Indian Penal Code ---
 {doc3[:4000]}
 
-Based only on the above documents, please respond to the following user grievance:
+A citizen has reported the following grievance:
 
 "{grievance}"
 
 Instructions:
-- Provide helpful, legally accurate, and concise advice.
-- Mention applicable rights, acts, or remedies (if available in the docs).
-- Use formal but simple language.
-- Do NOT generate fake law or add assumptions.
-- If unclear or insufficient info, suggest legal aid or helpline.
+- Base your advice strictly on the documents above.
+- Avoid hallucinations or assumptions.
+- Provide realistic legal guidance in plain, formal language.
+- Suggest relevant remedies or references where possible.
+- If unsure, suggest they approach a legal aid center or local authority.
 
-Your response must be realistic, policy-based, and focused on empowering the citizen.
+Your tone should be empowering and helpful.
 """
+    print("🧠 Prompt prepared for LLM.")
 
-    print("🧠 Sending prompt to LLM...")
-
-    # Step 4: Query LLM (Together.ai or other)
+    # Step 4: Call the LLM
     try:
+        print("⚙️ Sending prompt to Together.ai LLM...")
         response = client.chat.completions.create(
             model="meta-llama/Llama-3.3-70B-Instruct-Turbo-Free",
             messages=[{"role": "user", "content": prompt}]
         )
         solution_english = response.choices[0].message.content.strip()
-        print("✅ LLM Response:\n", solution_english)
+        print("✅ AI Response received.")
     except Exception as e:
         print("❌ LLM Error:", str(e))
         return f"<h2>AI Error</h2><p>{str(e)}</p>"
 
-    # Step 5: Translate if needed
+    # Step 5: Translate if required
     if lang != "en":
+        print(f"🌐 Translating solution to: {lang}")
         try:
-            print("🌍 Translating to:", lang)
             trans_url = f"{AZURE_TRANSLATOR_ENDPOINT}/translate?api-version=3.0&to={lang}"
             trans_headers = {
                 "Ocp-Apim-Subscription-Key": AZURE_TRANSLATOR_KEY,
@@ -263,13 +269,16 @@ Your response must be realistic, policy-based, and focused on empowering the cit
             trans_body = [{"Text": solution_english}]
             trans_res = requests.post(trans_url, headers=trans_headers, json=trans_body)
             translated = trans_res.json()[0]["translations"][0]["text"]
+            print("✅ Translation successful.")
         except Exception as e:
             print("⚠️ Translation failed:", str(e))
             translated = solution_english
     else:
+        print("ℹ️ Translation not needed (English selected)")
         translated = solution_english
 
-    # Step 6: Render solution.html
+    # Step 6: Render to template
+    print("📤 Rendering solution.html")
     return render_template("solution.html",
         original_text=solution_english,
         translated_text=translated,
