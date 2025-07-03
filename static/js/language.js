@@ -36,3 +36,36 @@ if (mobileMenuToggle && navLinks) {
     navLinks.classList.toggle("active");
   });
 }
+document.addEventListener("DOMContentLoaded", function () {
+  const popup = document.getElementById("enquiryPopup");
+  const closeBtn = document.getElementById("closeEnquiry");
+  const reopenBtn = document.getElementById("reopenPopupBtn");
+  const scrollBtn = document.getElementById("scrollToTopBtn");
+
+  // Show popup on load
+  popup.style.display = "flex";
+  document.body.classList.add("lock-scroll");
+
+  // Close popup
+  closeBtn.addEventListener("click", () => {
+    popup.style.display = "none";
+    document.body.classList.remove("lock-scroll");
+    reopenBtn.style.display = "block"; // show reopen button
+  });
+
+  // Reopen popup on click
+  reopenBtn.addEventListener("click", () => {
+    popup.style.display = "flex";
+    document.body.classList.add("lock-scroll");
+    reopenBtn.style.display = "none"; // hide again
+  });
+
+  // Scroll-to-top button logic
+  window.addEventListener("scroll", () => {
+    scrollBtn.style.display = window.scrollY > 100 ? "block" : "none";
+  });
+
+  scrollBtn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+});
