@@ -7,11 +7,12 @@
   <link rel="stylesheet" href="/static/css/grievance.css" />
 </head>
 <body>
+  <!-- Particle Background -->
   <div id="particles-js"></div>
 
   <!-- Navbar -->
   <nav class="navbar">
-    <div class="nav-container container">
+    <div class="nav-container">
       <div class="navbar-title">Nyay</div>
       <div class="menu-toggle" id="mobile-menu">
         <span></span><span></span><span></span>
@@ -22,19 +23,18 @@
     </div>
   </nav>
 
-  <!-- Centered Container -->
+  <!-- Centered Glass Form -->
   <div class="container">
-    <div class="grievance-container">
+    <div class="grievance-box">
       <h2 id="form-title">Describe Your Grievance</h2>
-
       <form id="grievance-form" method="POST" action="/grievance">
-        <!-- Voice Input -->
+        <!-- Voice Recording -->
         <div class="voice-input">
           <button type="button" id="recordBtn">🎙️</button>
           <span id="recordStatus">Click to start recording</span>
         </div>
 
-        <!-- Text Area -->
+        <!-- Textarea -->
         <textarea
           id="problem"
           name="problem"
@@ -42,14 +42,7 @@
           required
         ></textarea>
 
-        <!-- Severity Range -->
-        <label for="severity">How severe is the issue?</label>
-        <div class="severity-bar">
-          <input type="range" id="severity" name="severity" min="0" max="10" value="5" />
-          <span id="severity-value">5</span>/10
-        </div>
-
-        <!-- Continue Button -->
+        <!-- Submit -->
         <button type="submit" class="submit-btn" id="continueBtn">Continue</button>
       </form>
     </div>
@@ -60,15 +53,16 @@
     <p>&copy; 2025 Nyay. All Rights Reserved.</p>
   </footer>
 
+  <!-- Scroll to Top -->
   <button id="scrollToTopBtn" title="Go to top">↑</button>
 
-  <!-- Inject language-specific text -->
+  <!-- Language Translation (injected from session) -->
   <script>
     const userLang = "{{ session.get('selected_language', 'en') }}";
     const labels = {
       en: { speak: "Speak", continue: "Continue", title: "Describe Your Grievance" },
       hi: { speak: "बोलना", continue: "आगे जारी रखें", title: "अपनी समस्या बताएं" },
-      or: { speak: "କହନ୍ତୁ", continue: "ଆଗକୁ ବଢନ୍ତୁ", title: "ଆପଣଙ୍କର ସମସ୍ୟା ରୂପରେ ରେଖନ୍ତୁ" },
+      or: { speak: "କହନ୍ତୁ", continue: "ଆଗକୁ ବଢନ୍ତୁ", title: "ଆପଣଙ୍କର ସମସ୍ୟା ବର୍ଣ୍ଣନା କରନ୍ତୁ" },
       bn: { speak: "বলুন", continue: "চালিয়ে যান", title: "আপনার সমস্যা বলুন" },
       ta: { speak: "பேசவும்", continue: "தொடரவும்", title: "உங்கள் பிரச்சனை சொல்லுங்கள்" },
       te: { speak: "మాట్లాడండి", continue: "కొనసాగించండి", title: "మీ సమస్యను వివరించండి" },
