@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ session.get('selected_language', 'en') }}">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -27,24 +27,28 @@
   <div class="container">
     <div class="grievance-box">
       <h2 id="form-title">Describe Your Grievance</h2>
-      <form id="grievance-form" method="POST" action="/grievance">
-        <!-- Voice Recording -->
-        <div class="voice-input">
-          <button type="button" id="recordBtn">🎙️</button>
-          <span id="recordStatus">Click to start recording</span>
-        </div>
+     <form id="grievance-form" method="POST" action="/grievance">
+  <!-- Voice Recording -->
+  <div class="voice-input">
+    <button type="button" id="recordBtn">🎙️</button>
+    <span id="recordStatus">Click to start recording</span>
+  </div>
 
-        <!-- Textarea -->
-        <textarea
-          id="problem"
-          name="problem"
-          placeholder="e.g. Land dispute, domestic violence, labor issue..."
-          required
-        ></textarea>
+  <!-- Textarea -->
+  <textarea
+    id="problem"
+    name="problem"
+    placeholder="e.g. Land dispute, domestic violence, labor issue..."
+    required
+  ></textarea>
 
-        <!-- Submit -->
-        <button type="submit" class="submit-btn" id="continueBtn">Continue</button>
-      </form>
+  <!-- 🔽 Hidden language input goes here -->
+  <input type="hidden" name="language" value="{{ session.get('selected_language', 'en') }}">
+
+  <!-- Submit -->
+  <button type="submit" class="submit-btn" id="continueBtn">Continue</button>
+</form>
+
     </div>
   </div>
 
@@ -56,25 +60,7 @@
   <!-- Scroll to Top -->
   <button id="scrollToTopBtn" title="Go to top">↑</button>
 
-  <!-- Language Translation (injected from session) -->
-  <script>
-    const userLang = "{{ session.get('selected_language', 'en') }}";
-    const labels = {
-      en: { speak: "Speak", continue: "Continue", title: "Describe Your Grievance" },
-      hi: { speak: "बोलना", continue: "आगे जारी रखें", title: "अपनी समस्या बताएं" },
-      or: { speak: "କହନ୍ତୁ", continue: "ଆଗକୁ ବଢନ୍ତୁ", title: "ଆପଣଙ୍କର ସମସ୍ୟା ବର୍ଣ୍ଣନା କରନ୍ତୁ" },
-      bn: { speak: "বলুন", continue: "চালিয়ে যান", title: "আপনার সমস্যা বলুন" },
-      ta: { speak: "பேசவும்", continue: "தொடரவும்", title: "உங்கள் பிரச்சனை சொல்லுங்கள்" },
-      te: { speak: "మాట్లాడండి", continue: "కొనసాగించండి", title: "మీ సమస్యను వివరించండి" },
-    };
 
-    document.addEventListener("DOMContentLoaded", () => {
-      const lang = labels[userLang] || labels["en"];
-      document.getElementById("recordBtn").textContent = lang.speak;
-      document.getElementById("continueBtn").textContent = lang.continue;
-      document.getElementById("form-title").textContent = lang.title;
-    });
-  </script>
 
   <!-- Scripts -->
   <script src="/static/js/grievance.js" defer></script>
