@@ -69,25 +69,29 @@
   </footer>
 
   <!-- Language Popup -->
-  <div class="enquiry-popup" id="enquiryPopup">
-    <div class="enquiry-box">
-      <button class="close-btn" id="closeEnquiry">&times;</button>
-      <h3>Select Language</h3>
-      <form id="languageForm" method="POST" action="/store_language">
-        <input type="text" name="name" placeholder="Your Name" required>
-        <select name="language" required>
-          <option value="">Choose Language</option>
-          <option value="en">English</option>
-          <option value="hi">Hindi</option>
-          <option value="or">Odia</option>
-          <option value="bn">Bengali</option>
-          <option value="ta">Tamil</option>
-          <option value="te">Telugu</option>
-        </select>
-        <button type="submit">Continue</button>
-      </form>
-    </div>
+<div class="enquiry-popup" id="enquiryPopup">
+  <div class="enquiry-box">
+    <button class="close-btn" id="closeEnquiry">&times;</button>
+    <h3>Select Language</h3>
+    <form id="languageForm" method="POST" action="/store_language">
+
+      <!-- Optional Name Input -->
+      <input type="text" name="name" placeholder="Your Name" required>
+
+      <!-- Language Button Grid -->
+      <div class="language-options">
+        <button type="submit" name="language" value="en">English</button>
+        <button type="submit" name="language" value="hi">हिन्दी</button>
+        <button type="submit" name="language" value="or">ଓଡ଼ିଆ</button>
+        <button type="submit" name="language" value="bn">বাংলা</button>
+        <button type="submit" name="language" value="ta">தமிழ்</button>
+        <button type="submit" name="language" value="te">తెలుగు</button>
+      </div>
+
+    </form>
   </div>
+</div>
+
 
   <!-- Scroll to top -->
   <button id="scrollToTopBtn" title="Go to top">↑</button>
