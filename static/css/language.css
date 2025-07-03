@@ -43,6 +43,26 @@ html {
   box-shadow: 0 0 15px rgba(29, 78, 216, 0.4);
 }
 
+#reopenPopupBtn {
+  position: fixed;
+  bottom: 25px;
+  left: 25px;
+  z-index: 999;
+  background-color: #1d4ed8;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  display: none;
+  transition: 0.3s;
+}
+#reopenPopupBtn:hover {
+  background-color: #2563eb;
+}
+
 
 /* === NAVBAR CLEANED === */
 .navbar {
