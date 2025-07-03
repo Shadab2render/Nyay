@@ -152,9 +152,10 @@ def transcribe_audio_base64():
         # Step 5: Translate (if not English)
         if language_code.startswith("en"):
             translated_text = original_text
+            print("🧠 Azure Translation Output:", translated_text)
             print("🌐 Translation skipped (language is English)")
         else:
-            trans_url = f"{AZURE_TRANSLATOR_ENDPOINT}/translate?api-version=3.0&to=en"
+            trans_url = f"{AZURE_TRANSLATOR_ENDPOINT.rstrip('/')}/translate?api-version=3.0&to=en"
             trans_headers = {
                 "Ocp-Apim-Subscription-Key": AZURE_TRANSLATOR_KEY,
                 "Ocp-Apim-Subscription-Region": AZURE_TRANSLATOR_REGION,
