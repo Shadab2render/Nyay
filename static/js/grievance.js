@@ -10,7 +10,6 @@ const mobileMenuToggle = document.getElementById("mobile-menu");
 const navLinks = document.querySelector(".nav-links");
 
 // 🌐 Language mapping
-const userLang = document.body.getAttribute("data-lang") || "en"; // fallback if not set
 const languageMap = {
   en: "en-IN",
   hi: "hi-IN",
