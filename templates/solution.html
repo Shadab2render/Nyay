@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Legal Solution Report</title>
+  <link rel="stylesheet" href="/static/css/solution.css" />
+</head>
+<body data-lang="{{ lang }}">
+
+  <!-- Particles Background -->
+  <div id="particles-js"></div>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="navbar-title">Nyay</div>
+      <div class="menu-toggle" id="mobile-menu">
+        <span></span><span></span><span></span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Content -->
+  <div class="solution-container">
+    <h1>🧾 Legal Advice Report</h1>
+    <p><strong>Your Grievance:</strong> {{ problem }}</p>
+
+    <!-- AI English Output -->
+    <div class="solution-box fade-in">
+      <div class="solution-header">📄 Summary</div>
+      <p>{{ solution_en.split("2.")[0].replace("1.", "").strip() }}</p>
+    </div>
+
+    <div class="solution-box fade-in">
+      <div class="solution-header">⚖️ Relevant Indian Laws</div>
+      <p>
+        {{ solution_en.split("2.")[1].split("3.")[0].strip() if "2." in solution_en and "3." in solution_en else "Not Available" }}
+      </p>
+    </div>
+
+    <div class="solution-box fade-in">
+      <div class="solution-header">✅ Suggested Actions</div>
+      <p>
+        {{ solution_en.split("3.")[1].strip() if "3." in solution_en else "Not Available" }}
+      </p>
+    </div>
+
+    <!-- Translated Version -->
+    {% if lang != 'en' %}
+    <div class="solution-box translated-box fade-in">
+      <div class="solution-header">🌍 Translated Legal Advice ({{ lang.upper() }})</div>
+      <p>{{ solution_translated or "Translation pending or not available." }}</p>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- Buttons -->
+  <form action="/pdfdownload" method="GET" style="text-align: center; margin-top: 20px;">
+    <button type="submit" class="btn-glow">Download PDF</button>
+  </form>
+
+  <form action="/final" method="GET" style="text-align: center; margin-top: 10px;">
+    <button type="submit" class="btn-glow-secondary">Continue</button>
+  </form>
+
+  <!-- PDF Download Script -->
+  <button id="download-pdf" class="pdf-icon-btn" title="Download PDF">📥</button>
+
+  <script src="/static/js/solution.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <script>
+    document.getElementById("download-pdf").addEventListener("click", function () {
+      const element = document.querySelector(".solution-container");
+      const opt = {
+        margin: 0.4,
+        filename: 'Legal_Solution_{{ session.get("name", "anonymous") }}.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+      };
+      html2pdf().set(opt).from(element).save();
+    });
+  </script>
+
+  <!-- Particle Background Script -->
+  <script src="/static/js/particles.min.js"></script>
+  <script>
+    window.onload = function () {
+      particlesJS("particles-js", {
+        particles: {
+          number: { value: 300, density: { enable: true, value_area: 800 } },
+          color: { value: "#60a5fa" },
+          shape: { type: "circle" },
+          opacity: { value: 0.4, random: true },
+          size: { value: 3, random: true },
+          line_linked: { enable: true, distance: 130, color: "#60a5fa", opacity: 0.2, width: 1 },
+          move: { enable: true, speed: 2, out_mode: "bounce" }
+        },
+        interactivity: {
+          events: {
+            onhover: { enable: true, mode: "repulse" },
+            onclick: { enable: true, mode: "push" }
+          },
+          modes: {
+            repulse: { distance: 150 },
+            push: { particles_nb: 4 }
+          }
+        },
+        retina_detect: true
+      });
+    };
+  </script>
+</body>
+</html>
