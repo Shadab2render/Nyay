@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Generating Legal Report...</title>
+
+  <!-- Lottie Player -->
+  <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+
+  <!-- CSS Styling -->
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to right, #d8e8ff, #f5f7ff);
+      overflow: hidden;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    #particles-js {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+    }
+
+    .solution-container {
+      max-width: 880px;
+      margin: 140px auto 60px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(18px);
+      position: relative;
+      z-index: 2;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      text-align: center;
+    }
+
+    .solution-container h1 {
+      font-size: 28px;
+      margin-bottom: 30px;
+      color: #1e1e2f;
+      font-weight: 700;
+    }
+
+    .loader-stack {
+      position: relative;
+      width: 300px;
+      height: 300px;
+      margin: 0 auto;
+    }
+
+    .loader-stack dotlottie-player {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 300px;
+      height: 300px;
+    }
+
+    .loader-stack dotlottie-player:first-child {
+      z-index: 2;
+    }
+
+    .loader-stack dotlottie-player:last-child {
+      z-index: 1;
+      opacity: 0.6;
+    }
+
+    .subtitle {
+      margin-top: 20px;
+      color: #333;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Particle Background -->
+  <div id="particles-js"></div>
+
+  <!-- Glass Container -->
+  <div class="solution-container">
+    <h1>⚖️ Generating Your Legal Report...</h1>
+
+    <div class="loader-stack">
+      <!-- Top animation (z-index: 2) -->
+      <dotlottie-player
+        src="https://lottie.host/018f6de2-9e91-421c-9750-abd27b0bb7a2/DKOfMaA5lF.lottie"
+        background="transparent"
+        speed="1"
+        loop
+        autoplay>
+      </dotlottie-player>
+
+      <!-- Behind animation (z-index: 1) -->
+      <dotlottie-player
+        src="https://lottie.host/78a92b01-e157-452b-800e-10d61cc2eaa1/ezUJUQaUVG.lottie"
+        background="transparent"
+        speed="1"
+        loop
+        autoplay>
+      </dotlottie-player>
+    </div>
+
+    <p class="subtitle">This may take a few seconds depending on server load...</p>
+  </div>
+
+  <!-- Particles.js -->
+  <script src="/static/js/particles.min.js"></script>
+  <script>
+    window.onload = function () {
+      particlesJS("particles-js", {
+        particles: {
+          number: { value: 600, density: { enable: true, value_area: 800 } },
+          color: { value: "#60a5fa" },
+          shape: { type: "circle" },
+          opacity: { value: 0.4, random: true },
+          size: { value: 3, random: true },
+          line_linked: {
+            enable: true,
+            distance: 130,
+            color: "#60a5fa",
+            opacity: 0.2,
+            width: 1
+          },
+          move: {
+            enable: true,
+            speed: 2,
+            out_mode: "bounce"
+          }
+        },
+        interactivity: {
+          events: {
+            onhover: { enable: true, mode: "repulse" },
+            onclick: { enable: true, mode: "push" }
+          },
+          modes: {
+            repulse: { distance: 50 },
+            push: { particles_nb: 4 }
+          }
+        },
+        retina_detect: true
+      });
+    };
+  </script>
+
+  <!-- Auto Polling Script -->
+  <script>
+    setInterval(async () => {
+      try {
+        const res = await fetch('/check-status');
+        const data = await res.json();
+        if (data.ready) {
+          window.location.href = '/report';
+        }
+      } catch (err) {
+        console.error("Error checking status:", err);
+      }
+    }, 2000);
+  </script>
+</body>
+</html>
