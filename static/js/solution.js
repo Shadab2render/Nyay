@@ -32,3 +32,13 @@ document.querySelectorAll(".solution-box").forEach(box => {
     box.style.boxShadow = "none";
   });
 });
+document.addEventListener("DOMContentLoaded", () => {
+  const mobileMenuToggle = document.getElementById("mobile-menu");
+  const navLinks = document.getElementById("navLinks");
+
+  if (mobileMenuToggle && navLinks) {
+    mobileMenuToggle.addEventListener("click", () => {
+      navLinks.classList.toggle("active");
+    });
+  }
+});
