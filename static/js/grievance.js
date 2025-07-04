@@ -100,12 +100,17 @@ scrollBtn.addEventListener("click", () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
 });
 
-// 🍔 Mobile menu
-if (mobileMenuToggle && navLinks) {
-  mobileMenuToggle.addEventListener("click", () => {
-    navLinks.classList.toggle("active");
-  });
-}
+document.addEventListener("DOMContentLoaded", () => {
+  const mobileMenuToggle = document.getElementById("mobile-menu");
+  const navLinks = document.getElementById("navLinks");
+
+  if (mobileMenuToggle && navLinks) {
+    mobileMenuToggle.addEventListener("click", () => {
+      navLinks.classList.toggle("active");
+    });
+  }
+});
+
 
 // 🈯 Apply labels after DOM loaded
 document.addEventListener("DOMContentLoaded", () => {
