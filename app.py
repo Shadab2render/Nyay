@@ -45,6 +45,8 @@ AZURE_SPEECH_ENDPOINT = os.getenv("AZURE_SPEECH_ENDPOINT")
 TOGETHER_API_KEY = os.getenv("TOGETHER_API_KEY")
 TOGETHER_MODEL = os.getenv("TOGETHER_MODEL")
 
+AZURE_MAPS_KEY = os.getenv("AZURE_MAPS_KEY")
+
 
 client = Together(api_key=TOGETHER_API_KEY)
 
@@ -372,7 +374,7 @@ Do NOT add or modify the structure.
 @app.route('/help', methods=['GET', 'POST'])
 def help_page():
     if request.method == 'GET':
-        return render_template("help.html", azure_maps_key=os.getenv("AZURE_MAPS_KEY"))
+        return render_template("help.html", azure_maps_key=AZURE_MAPS_KEY)
 
     try:
         data = request.get_json()
