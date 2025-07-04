@@ -14,6 +14,25 @@ body {
   min-height: 100vh;
 }
 
+.continue-btn {
+  background-color: #7e22ce;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 12px;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 12px rgba(126, 34, 206, 0.4);
+}
+
+.continue-btn:hover {
+  background-color: #6b21a8;
+  transform: scale(1.05);
+}
+
 /* NAVBAR */
 .navbar {
   position: fixed;
