@@ -6,15 +6,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const mobileMenuToggle = document.getElementById("mobile-menu");
   const navLinks = document.querySelector(".nav-links");
 
-  // Show popup on page load
-  popup.style.display = "flex";
-  document.body.classList.add("lock-scroll");
-
-  // Animate popup (fade/scale)
-  setTimeout(() => {
-    popup.classList.add("fade-in");
-  }, 100);
-
   // Close popup
   closeBtn.addEventListener("click", () => {
     popup.style.display = "none";
