@@ -5,12 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Nyay - Describe Grievance</title>
   <link rel="stylesheet" href="/static/css/grievance.css" />
-  <script
-  src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs"
-  type="module"
-></script>
-
+  <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
 </head>
+
 <body data-lang="{{ session.get('selected_language', 'en') }}">
   <!-- Particle Background -->
   <div id="particles-js"></div>
@@ -28,58 +25,47 @@
     </div>
   </nav>
 
-  <!-- Centered Glass Form -->
-<div class="container">
-  <div class="grievance-box">
-    <h2 id="form-title">Describe Your Grievance</h2>
+  <!-- Main Content -->
+  <div class="container">
+    <div class="grievance-box">
+      <h2 id="form-title">Describe Your Grievance</h2>
 
-    <form id="grievance-form" method="POST" action="/grievance">
+      <form id="grievance-form" method="POST" action="/grievance">
+        <!-- 🎙️ Voice Recording with Loader -->
+        <div class="voice-row">
+          <!-- Loader Left -->
+          <div id="translationLoader" class="loader-container">
+            <dotlottie-player
+              src="https://lottie.host/80d7623e-a354-43af-88ee-cffac28c3789/IONNMS6xeg.lottie"
+              background="transparent"
+              speed="1"
+              style="width: 60px; height: 60px;"
+              loop
+              autoplay
+            ></dotlottie-player>
+          </div>
 
-      <!-- 🎙️ Voice Recording with Loader -->
-      <div class="voice-row">
-        <!-- Loader Left -->
-        <div id="translationLoader" class="loader-container">
-          <dotlottie-player
-            src="https://lottie.host/80d7623e-a354-43af-88ee-cffac28c3789/IONNMS6xeg.lottie"
-            background="transparent"
-            speed="1"
-            style="width: 60px; height: 60px;"
-            loop
-            autoplay
-          ></dotlottie-player>
+          <!-- Button + Status -->
+          <div class="voice-controls">
+            <button type="button" id="recordBtn">🎙️</button>
+            <span id="recordStatus">Click to start recording</span>
+          </div>
         </div>
 
-        <!-- Button + Status -->
-        <div class="voice-controls">
-          <button type="button" id="recordBtn">🎙️</button>
-          <span id="recordStatus">Click to start recording</span>
-        </div>
-      </div>
+        <!-- 📝 Grievance Text -->
+        <textarea
+          id="problem"
+          name="problem"
+          placeholder="e.g. Land dispute, domestic violence, labor issue..."
+          required
+        ></textarea>
 
-      <!-- 📝 Grievance Text -->
-      <textarea
-        id="problem"
-        name="problem"
-        placeholder="e.g. Land dispute, domestic violence, labor issue..."
-        required
-      ></textarea>
+        <!-- 🔽 Hidden language input -->
+        <input type="hidden" name="language" value="{{ session.get('selected_language', 'en') }}">
 
-      <!-- 🔽 Hidden language input -->
-      <input type="hidden" name="language" value="{{ session.get('selected_language', 'en') }}">
-
-      <!-- ✅ Submit -->
-      <button type="submit" class="submit-btn" id="continueBtn">Continue</button>
-    </form>
-  </div>
-</div>
-
-  <!-- 🔽 Hidden language input goes here -->
-  <input type="hidden" name="language" value="{{ session.get('selected_language', 'en') }}">
-
-  <!-- Submit -->
-  <button type="submit" class="submit-btn" id="continueBtn">Continue</button>
-</form>
-
+        <!-- ✅ Submit -->
+        <button type="submit" class="submit-btn" id="continueBtn">Continue</button>
+      </form>
     </div>
   </div>
 
@@ -90,8 +76,6 @@
 
   <!-- Scroll to Top -->
   <button id="scrollToTopBtn" title="Go to top">↑</button>
-
-
 
   <!-- Scripts -->
   <script src="/static/js/grievance.js" defer></script>
@@ -143,6 +127,5 @@
       });
     };
   </script>
-
 </body>
 </html>
