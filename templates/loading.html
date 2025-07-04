@@ -67,13 +67,9 @@
       height: 300px;
     }
 
-    .loader-stack dotlottie-player:first-child {
-      z-index: 2;
-    }
 
     .loader-stack dotlottie-player:last-child {
-      z-index: 1;
-      opacity: 0.6;
+      z-index: 2;
     }
 
     .subtitle {
@@ -93,13 +89,6 @@
 
     <div class="loader-stack">
       <!-- Top animation (z-index: 2) -->
-      <dotlottie-player
-        src="https://lottie.host/018f6de2-9e91-421c-9750-abd27b0bb7a2/DKOfMaA5lF.lottie"
-        background="transparent"
-        speed="1"
-        loop
-        autoplay>
-      </dotlottie-player>
 
       <!-- Behind animation (z-index: 1) -->
       <dotlottie-player
@@ -153,19 +142,20 @@
     };
   </script>
 
-  <!-- Auto Polling Script -->
-  <script>
-    setInterval(async () => {
-      try {
-        const res = await fetch('/check-status');
-        const data = await res.json();
-        if (data.ready) {
-          window.location.href = '/report';
-        }
-      } catch (err) {
-        console.error("Error checking status:", err);
+<!-- Auto Polling Script -->
+<script>
+  setInterval(async () => {
+    try {
+      const res = await fetch('/check-status');
+      const data = await res.json();
+      if (data.ready) {
+        window.location.href = '/solution';  // ✅ Correct route
       }
-    }, 2000);
-  </script>
+    } catch (err) {
+      console.error("Error checking status:", err);
+    }
+  }, 2000);
+</script>
+
 </body>
 </html>
