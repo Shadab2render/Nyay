@@ -219,30 +219,52 @@ def generate_solution():
 
     # Step 3: Construct prompt
     prompt = f"""
-You are an AI legal assistant for Indian citizens.
+You are an AI legal assistant helping Indian citizens understand their rights and options.
 
-Below are official legal documents. Only use information from these documents. Do not invent laws or advice.
+You will receive official legal document excerpts and a user grievance. Your job is to give helpful, grounded advice only from the documents.
 
---- Code of Civil Procedure ---
+=======================
+📚 LEGAL REFERENCES
+=======================
+
+--- Code of Civil Procedure (CPC) ---
 {doc1[:4000]}
---- Indian Contract Act, 1872 ---
+
+--- Indian Contract Act ---
 {doc2[:4000]}
---- Indian Penal Code ---
+
+--- Indian Penal Code (IPC) ---
 {doc3[:4000]}
 
-A citizen has reported the following grievance:
-
+=======================
+📩 USER GRIEVANCE
+=======================
 "{grievance}"
 
-Instructions:
-- Base your advice strictly on the documents above.
-- Avoid hallucinations or assumptions.
-- Provide realistic legal guidance in plain, formal language.
-- Suggest relevant remedies or references where possible.
-- If unsure, suggest they approach a legal aid center or local authority.
+=======================
+📋 INSTRUCTIONS
+=======================
+Based only on the legal content provided:
+- Explain how the user can legally approach this issue.
+- Do not hallucinate laws or assume details.
+- If unsure, advise them to seek legal aid.
+- Use formal yet clear and accessible language.
+- **Always include all 3 sections below, clearly numbered.**
 
-Your tone should be empowering and helpful.
+=======================
+📑 RESPONSE FORMAT
+=======================
+Your response MUST use this format exactly:
+
+1. Summary: [One paragraph summarizing the legal perspective]
+
+2. Relevant Indian Laws: [Quote sections or types of laws that apply]
+
+3. Suggested Actions: [List practical legal next steps]
+
+Do NOT add or modify the structure.
 """
+
     print("🧠 Prompt prepared for LLM.")
 
     # Step 4: Call the LLM
