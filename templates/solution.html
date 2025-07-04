@@ -35,7 +35,13 @@
   <div class="solution-box fade-in">
     <div class="solution-header">📄 Summary</div>
     <p>
-      {{ output.split("2.")[0].replace("1.", "").strip() if "2." in output else output.strip() }}
+      {% if "1." in output and "2." in output %}
+        {{ output.split("2.")[0].replace("1.", "").strip() }}
+      {% elif "2." in output %}
+        {{ output.split("2.")[0].strip() }}
+      {% else %}
+        {{ output.strip() }}
+      {% endif %}
     </p>
   </div>
 
@@ -43,7 +49,13 @@
   <div class="solution-box fade-in">
     <div class="solution-header">⚖️ Relevant Indian Laws</div>
     <p>
-      {{ output.split("2.")[1].split("3.")[0].strip() if "2." in output and "3." in output else "Not Available" }}
+      {% if "2." in output and "3." in output %}
+        {{ output.split("2.")[1].split("3.")[0].strip() }}
+      {% elif "2." in output %}
+        {{ output.split("2.")[1].strip() }}
+      {% else %}
+        Not Available
+      {% endif %}
     </p>
   </div>
 
@@ -51,7 +63,11 @@
   <div class="solution-box fade-in">
     <div class="solution-header">✅ Suggested Actions</div>
     <p>
-      {{ output.split("3.")[1].strip() if "3." in output else "Not Available" }}
+      {% if "3." in output %}
+        {{ output.split("3.")[1].strip() }}
+      {% else %}
+        Not Available
+      {% endif %}
     </p>
   </div>
 </div>
