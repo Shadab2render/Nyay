@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Nyay - Describe Grievance</title>
   <link rel="stylesheet" href="/static/css/grievance.css" />
+  <script
+  src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs"
+  type="module"
+></script>
+
 </head>
 <body data-lang="{{ session.get('selected_language', 'en') }}">
   <!-- Particle Background -->
@@ -24,15 +29,50 @@
   </nav>
 
   <!-- Centered Glass Form -->
-  <div class="container">
-    <div class="grievance-box">
-      <h2 id="form-title">Describe Your Grievance</h2>
-     <form id="grievance-form" method="POST" action="/grievance">
-  <!-- Voice Recording -->
-  <div class="voice-input">
-    <button type="button" id="recordBtn">🎙️</button>
-    <span id="recordStatus">Click to start recording</span>
+<div class="container">
+  <div class="grievance-box">
+    <h2 id="form-title">Describe Your Grievance</h2>
+
+    <form id="grievance-form" method="POST" action="/grievance">
+
+      <!-- 🎙️ Voice Recording with Loader -->
+      <div class="voice-row">
+        <!-- Loader Left -->
+        <div id="translationLoader" class="loader-container">
+          <dotlottie-player
+            src="https://lottie.host/80d7623e-a354-43af-88ee-cffac28c3789/IONNMS6xeg.lottie"
+            background="transparent"
+            speed="1"
+            style="width: 60px; height: 60px;"
+            loop
+            autoplay
+          ></dotlottie-player>
+        </div>
+
+        <!-- Button + Status -->
+        <div class="voice-controls">
+          <button type="button" id="recordBtn">🎙️</button>
+          <span id="recordStatus">Click to start recording</span>
+        </div>
+      </div>
+
+      <!-- 📝 Grievance Text -->
+      <textarea
+        id="problem"
+        name="problem"
+        placeholder="e.g. Land dispute, domestic violence, labor issue..."
+        required
+      ></textarea>
+
+      <!-- 🔽 Hidden language input -->
+      <input type="hidden" name="language" value="{{ session.get('selected_language', 'en') }}">
+
+      <!-- ✅ Submit -->
+      <button type="submit" class="submit-btn" id="continueBtn">Continue</button>
+    </form>
   </div>
+</div>
+
 
   <!-- Textarea -->
   <textarea
@@ -112,5 +152,6 @@
       });
     };
   </script>
+
 </body>
 </html>
