@@ -6,6 +6,12 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+html, body {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 body {
   background: linear-gradient(to right, #d8e8ff, #f5f7ff);
   color: #111827;
@@ -197,8 +203,15 @@ textarea:focus {
   display: flex;
   align-items: center;
   gap: 16px;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 }
+
+.loader-container {
+  display: none; /* 👈 Make sure this exists */
+  align-items: center;
+  justify-content: center;
+}
+
 
 #recordBtn {
   font-size: 18px;
@@ -252,4 +265,5 @@ footer {
   font-size: 0.95rem;
   color: #333;
   z-index: 2;
-}
+  margin-top: auto; /* 👈 Pushes footer to bottom */
+
