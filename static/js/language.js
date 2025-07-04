@@ -43,7 +43,10 @@ document.addEventListener("DOMContentLoaded", function () {
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
 
-  // Mobile nav toggle
+document.addEventListener("DOMContentLoaded", () => {
+  const mobileMenuToggle = document.getElementById("mobile-menu");
+  const navLinks = document.getElementById("navLinks");
+
   if (mobileMenuToggle && navLinks) {
     mobileMenuToggle.addEventListener("click", () => {
       navLinks.classList.toggle("active");
