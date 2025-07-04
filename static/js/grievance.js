@@ -115,9 +115,3 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("form-title").textContent = langSet.title;
 });
 
-"shadow": {
-  "enable": true,
-  "color": "#a855f7",
-  "blur": 5
-}
-
