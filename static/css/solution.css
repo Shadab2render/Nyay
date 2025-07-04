@@ -87,6 +87,27 @@ body {
     border-radius: 14px;
     padding: 4px 0;
   }
+   .nav-links li a {
+     color: #4c1d95;
+     font-weight: 600;
+     text-decoration: none;
+     font-size: 1rem;
+     transition: all 0.3s ease;
+
+  /* ✨ NEW: Frosted button background */
+     background: rgba(255, 255, 255, 0.4);
+     padding: 10px 14px;
+     border-radius: 10px;
+     backdrop-filter: blur(6px);
+     border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .nav-links li a:hover {
+    color: #7e22ce;
+    transform: translateX(4px);
+    background: rgba(255, 255, 255, 0.55); /* more visible on hover */
+  }
+
 
   .nav-links {
     display: none;
