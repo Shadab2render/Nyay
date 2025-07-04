@@ -369,6 +369,69 @@ Do NOT add or modify the structure.
     )
 
 
+@app.route('/help', methods=['GET', 'POST'])
+def help_page():
+    if request.method == 'GET':
+        return render_template("help.html", azure_maps_key=os.getenv("AZURE_MAPS_KEY"))
+
+    try:
+        data = request.get_json()
+        lat, lon = data.get("lat"), data.get("lon")
+        if not lat or not lon:
+            return jsonify({"police": [], "ngos": [], "legal": []})
+
+        base_url = "https://atlas.microsoft.com/search/poi/category/json"
+        key = os.getenv("AZURE_MAPS_KEY")
+
+        def fetch_places(query, keywords_file):
+            params = {
+                "api-version": "1.0",
+                "subscription-key": key,
+                "query": query,
+                "lat": lat,
+                "lon": lon,
+                "radius": 10000,
+                "limit": 25
+            }
+            res = requests.get(base_url, params=params)
+            if res.status_code != 200:
+                print("❌ Azure error:", res.text)
+                return []
+
+            places = res.json().get("results", [])
+
+            with open(keywords_file, "r", encoding="utf-8") as f:
+                keywords = [line.strip().lower() for line in f if line.strip()]
+
+            matched = []
+            fallback = []
+
+            for place in places:
+                name = place.get("poi", {}).get("name", "").lower()
+                if any(keyword in name for keyword in keywords):
+                    matched.append(place)
+                else:
+                    fallback.append(place)
+
+            final = matched + [x for x in fallback if x not in matched]
+            return final[:6]
+
+        police = fetch_places("police station", "documents/police.txt")
+        ngos = fetch_places("ngo", "documents/ngos.txt")
+        legal = fetch_places("lawyer", "documents/legalaid.txt")
+
+        return jsonify({
+            "police": police,
+            "ngos": ngos,
+            "legal": legal
+        })
+
+    except Exception as e:
+        print("❌ /help error:", str(e))
+        return jsonify({"police": [], "ngos": [], "legal": []})
+
+
+
 # === Run App ===
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
