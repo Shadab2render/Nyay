@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Find Nearby Help – Nyay</title>
+  <link rel="stylesheet" href="/static/css/help.css" />
+  <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+</head>
+
+<body>
+  <!-- Particles Background -->
+  <div id="particles-js"></div>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="navbar-title">Nyay</div>
+      <div class="menu-toggle" id="mobile-menu">
+        <span></span><span></span><span></span>
+      </div>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="/">Home</a></li>
+        <li><a href="/grievance">Grievance</a></li>
+        <li><a href="/solution">Solution</a></li>
+        <li><a href="/help">Help</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="solution-container">
+    <h1>Find Nearby Legal Help</h1>
+    <p style="text-align: center; margin-bottom: 20px;">Tap the button below to find the nearest police stations, NGOs, and legal aid centers near you.</p>
+    <div style="text-align: center;">
+      <button id="findBtn">📍 Find Help Near Me</button>
+    </div>
+
+    <div class="solution-box" id="policeResults">
+      <div class="solution-header">👮 Nearby Police Stations</div>
+      <div class="result-items" id="policeList">No data yet.</div>
+    </div>
+
+    <div class="solution-box" id="ngoResults">
+      <div class="solution-header">🤝 NGOs Providing Legal Support</div>
+      <div class="result-items" id="ngoList">No data yet.</div>
+    </div>
+
+    <div class="solution-box" id="legalAidResults">
+      <div class="solution-header">⚖️ Legal Aid Centers</div>
+      <div class="result-items" id="legalList">No data yet.</div>
+    </div>
+  </div>
+
+  <!-- Scroll to Top -->
+  <button id="scrollToTopBtn" title="Go to top">↑</button>
+
+  <!-- Scripts -->
+  <script src="/static/js/particles.min.js"></script>
+  <script src="/static/js/help.js" defer></script>
+  <script>
+    window.onload = function () {
+      particlesJS("particles-js", {
+        particles: {
+          number: { value: 600, density: { enable: true, value_area: 800 } },
+          color: { value: "#60a5fa" },
+          shape: { type: "circle" },
+          opacity: { value: 0.4, random: true },
+          size: { value: 3, random: true },
+          line_linked: {
+            enable: true,
+            distance: 130,
+            color: "#60a5fa",
+            opacity: 0.2,
+            width: 1
+          },
+          move: {
+            enable: true,
+            speed: 2,
+            out_mode: "bounce"
+          }
+        },
+        interactivity: {
+          events: {
+            onhover: { enable: true, mode: "repulse" },
+            onclick: { enable: true, mode: "push" }
+          },
+          modes: {
+            repulse: { distance: 50 },
+            push: { particles_nb: 4 }
+          }
+        },
+        retina_detect: true
+      });
+    };
+  </script>
+
+  <script>
+    // Mobile nav
+    document.addEventListener("DOMContentLoaded", () => {
+      const mobileMenuToggle = document.getElementById("mobile-menu");
+      const navLinks = document.getElementById("navLinks");
+
+      if (mobileMenuToggle && navLinks) {
+        mobileMenuToggle.addEventListener("click", () => {
+          navLinks.classList.toggle("active");
+        });
+      }
+    });
+  </script>
+</body>
+</html>
