@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const mobileMenuToggle = document.getElementById("mobile-menu");
   const navLinks = document.querySelector(".nav-links");
 
-  // Define global popup trigger (from Get Started button)
+  // Global trigger for Get Started button
   window.openPopup = function () {
     popup.style.display = "flex";
     popup.classList.add("fade-in");
@@ -15,22 +15,26 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 
   // Close popup
-  closeBtn.addEventListener("click", () => {
-    popup.style.display = "none";
-    document.body.classList.remove("lock-scroll");
-    reopenBtn.style.display = "block";
-    reopenBtn.classList.add("pop-in");
-  });
+  if (closeBtn) {
+    closeBtn.addEventListener("click", () => {
+      popup.style.display = "none";
+      document.body.classList.remove("lock-scroll");
+      reopenBtn.style.display = "block";
+      reopenBtn.classList.add("pop-in");
+    });
+  }
 
   // Reopen popup manually
-  reopenBtn.addEventListener("click", () => {
-    popup.style.display = "flex";
-    popup.classList.add("fade-in");
-    document.body.classList.add("lock-scroll");
-    reopenBtn.style.display = "none";
-  });
+  if (reopenBtn) {
+    reopenBtn.addEventListener("click", () => {
+      popup.style.display = "flex";
+      popup.classList.add("fade-in");
+      document.body.classList.add("lock-scroll");
+      reopenBtn.style.display = "none";
+    });
+  }
 
-  // Scroll-to-top button
+  // Scroll-to-top button logic
   window.addEventListener("scroll", () => {
     if (window.scrollY > 100) {
       scrollBtn.classList.add("show");
@@ -43,13 +47,10 @@ document.addEventListener("DOMContentLoaded", function () {
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
 
-document.addEventListener("DOMContentLoaded", () => {
-  const mobileMenuToggle = document.getElementById("mobile-menu");
-  const navLinks = document.getElementById("navLinks");
-
+  // Mobile menu toggle
   if (mobileMenuToggle && navLinks) {
     mobileMenuToggle.addEventListener("click", () => {
       navLinks.classList.toggle("active");
     });
   }
-})
+});
