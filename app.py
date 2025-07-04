@@ -4,6 +4,31 @@ from dotenv import load_dotenv
 from datetime import datetime
 from together import Together
 
+import subprocess
+
+def check_git_update():
+    try:
+        # Get the current local HEAD commit
+        current_commit = subprocess.check_output(["git", "rev-parse", "HEAD"]).decode("utf-8").strip()
+
+        # Get the latest commit available in origin/main (fetch first)
+        subprocess.run(["git", "fetch"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        latest_commit = subprocess.check_output(["git", "rev-parse", "origin/main"]).decode("utf-8").strip()
+
+        if current_commit != latest_commit:
+            print("🔄 New commit detected in repo.")
+            print("🚀 Updating to latest commit...")
+            
+            # Optional: Pull the latest changes (be careful on hosted platforms)
+            subprocess.run(["git", "pull", "origin", "main"])
+            print("✅ Code updated to latest commit.")
+        else:
+            print("✅ Already on latest commit.")
+
+    except Exception as e:
+        print("⚠️ Git update check failed:", str(e))
+
+
 load_dotenv()
 
 # Azure Translator
