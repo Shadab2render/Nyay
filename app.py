@@ -97,7 +97,14 @@ def grievance():
         session['problem'] = problem
         session['severity'] = severity
 
-        return redirect(url_for('generate_solution'))  # next page placeholder
+        # ✅ Mark AI as not ready
+        session['ai_ready'] = False
+
+        # ✅ Store time or trigger async AI generation if needed
+
+        # ✅ Redirect to loading screen
+        return redirect(url_for('loading_screen'))
+
     return render_template("grievance.html")
 
 # 🎙 /transcribe Route
