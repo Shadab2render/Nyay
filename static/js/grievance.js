@@ -23,6 +23,7 @@ const problemInput = document.getElementById('problem');
 const scrollBtn = document.getElementById("scrollToTopBtn");
 const mobileMenuToggle = document.getElementById("mobile-menu");
 const navLinks = document.querySelector(".nav-links");
+const translationLoader = document.getElementById("translationLoader");
 
 // 🎙 Voice Transcription Logic
 recordBtn.addEventListener("click", async () => {
@@ -35,6 +36,9 @@ recordBtn.addEventListener("click", async () => {
     mediaRecorder.onstop = async () => {
       const blob = new Blob(audioChunks, { type: "audio/webm" });
       const base64 = await blobToBase64(blob);
+
+      // Show loader
+      translationLoader.style.display = "flex";
       recordStatus.textContent = "Transcribing...";
 
       try {
@@ -48,6 +52,10 @@ recordBtn.addEventListener("click", async () => {
         });
 
         const data = await response.json();
+
+        // Hide loader
+        translationLoader.style.display = "none";
+
         if (data.translated_text) {
           problemInput.value = data.translated_text;
           recordStatus.textContent = "✔️ Transcribed";
@@ -59,6 +67,7 @@ recordBtn.addEventListener("click", async () => {
         }
       } catch (err) {
         console.error(err);
+        translationLoader.style.display = "none";
         recordStatus.textContent = "❌ Error occurred";
       }
     };
