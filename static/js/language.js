@@ -6,6 +6,14 @@ document.addEventListener("DOMContentLoaded", function () {
   const mobileMenuToggle = document.getElementById("mobile-menu");
   const navLinks = document.querySelector(".nav-links");
 
+  // Define global popup trigger (from Get Started button)
+  window.openPopup = function () {
+    popup.style.display = "flex";
+    popup.classList.add("fade-in");
+    document.body.classList.add("lock-scroll");
+    reopenBtn.style.display = "none";
+  };
+
   // Close popup
   closeBtn.addEventListener("click", () => {
     popup.style.display = "none";
@@ -14,14 +22,15 @@ document.addEventListener("DOMContentLoaded", function () {
     reopenBtn.classList.add("pop-in");
   });
 
-  // Reopen popup
+  // Reopen popup manually
   reopenBtn.addEventListener("click", () => {
     popup.style.display = "flex";
+    popup.classList.add("fade-in");
     document.body.classList.add("lock-scroll");
     reopenBtn.style.display = "none";
   });
 
-  // Scroll-to-top button logic
+  // Scroll-to-top button
   window.addEventListener("scroll", () => {
     if (window.scrollY > 100) {
       scrollBtn.classList.add("show");
@@ -34,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
 
-  // Hamburger menu toggle
+  // Mobile nav toggle
   if (mobileMenuToggle && navLinks) {
     mobileMenuToggle.addEventListener("click", () => {
       navLinks.classList.toggle("active");
