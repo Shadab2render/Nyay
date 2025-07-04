@@ -104,13 +104,6 @@ body {
   transform: scale(1.01);
 }
 
-.solution-box:nth-child(2) {
-  border-left-color: #8b5cf6;
-}
-
-.solution-box:nth-child(3) {
-  border-left-color: #22c55e;
-}
 
 .solution-header {
   font-weight: 700;
