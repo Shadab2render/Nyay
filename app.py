@@ -245,14 +245,7 @@ def check_status():
     return jsonify({"ready": True})
 
 
-@app.route('/report')
-def show_report():
-    """
-    Simple debug/test route to see what problem is stored in session.
-    Not required in production.
-    """
-    problem = session.get('problem', 'No problem submitted')
-    return f"<h1>Legal Advice Report</h1><p>{problem}</p>"
+
 @app.route('/solution')
 def generate_solution():
     import os, requests
