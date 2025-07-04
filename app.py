@@ -218,36 +218,41 @@ def transcribe_audio_base64():
         print("🔥 General Error in /transcribe:", str(e))
         return jsonify({"error": str(e)}), 500
 
-@app.route('/grievance', methods=['POST'])
-def handle_grievance():
-    # Store input and simulate processing delay
-    session['problem'] = "user's grievance here"
-    session['ai_ready'] = False
-
-    # In real case, trigger background task
-    time.sleep(1)  # simulate async call
-
-    # Redirect to loading screen
-    return redirect('/loading')
 
 @app.route('/loading')
 def loading_screen():
+    """
+    This displays the loading animation while AI processes the solution.
+    If solution is already ready, redirect to final output.
+    """
+    if session.get('ai_ready'):
+        return redirect(url_for('generate_solution'))
     return render_template('loading.html')
+
 
 @app.route('/check-status')
 def check_status():
-    # In real case, check if AI response is ready
-    # Simulating readiness after delay
+    """
+    This endpoint is polled by the frontend to check if AI processing is complete.
+    In a real app, this should check background job status.
+    For now, we'll simulate readiness after 1st poll.
+    """
     if not session.get('ai_ready'):
+        # Mark as ready on first call (simulating AI job complete)
         session['ai_ready'] = True
         return jsonify({"ready": False})
+    
     return jsonify({"ready": True})
+
 
 @app.route('/report')
 def show_report():
+    """
+    Simple debug/test route to see what problem is stored in session.
+    Not required in production.
+    """
     problem = session.get('problem', 'No problem submitted')
     return f"<h1>Legal Advice Report</h1><p>{problem}</p>"
-
 @app.route('/solution')
 def generate_solution():
     import os, requests
