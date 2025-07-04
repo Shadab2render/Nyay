@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Nyay – Justice for All</title>
 
   <!-- Styles -->
@@ -28,49 +28,66 @@
     </div>
   </nav>
 
-  <!-- Hero Section -->
-  <header class="hero">
-    <div class="container hero-content">
-      <h2>Empowering Citizens Through Language and Law</h2>
-      <p>Speak your problem, we’ll translate justice.</p>
-    </div>
-  </header>
-
-  <!-- Why Choose Section -->
-  <section class="why-choose">
-    <h3>Why Choose Nyay?</h3>
-    <p class="subtitle">Nyay bridges the legal literacy gap in India using multilingual AI assistance.</p>
-    <div class="why-boxes">
-      <div class="why-box"><p>Multilingual support for legal queries</p></div>
-      <div class="why-box"><p>Voice-enabled interface for illiterate users</p></div>
-      <div class="why-box"><p>Simple, step-by-step legal solutions</p></div>
-      <div class="why-box"><p>Works on mobile + low bandwidth</p></div>
+  <!-- HERO SECTION -->
+  <section class="solution-container" id="hero">
+    <h1>Empowering Citizens Through Language and Law</h1>
+    <p style="text-align: center; margin-bottom: 20px;">
+      Speak your problem, we’ll translate justice.
+    </p>
+    <div style="text-align: center;">
+      <button class="submit-btn" onclick="openPopup()">Get Started</button>
     </div>
   </section>
 
-  <!-- Features Section -->
-  <section class="features-section">
-    <div class="features-box">
-      <h3>Features</h3>
-      <p class="subtitle">More accessibility. More rights. More justice.</p>
-      <div class="features-list">
-        <div class="feature-item">Speech-to-Law Engine</div>
-        <div class="feature-item">AI Legal Assistant</div>
-        <div class="feature-item">Translation System</div>
-        <div class="feature-item">Grievance PDF Generator</div>
-        <div class="feature-item">Offline Lite Mode</div>
-        <div class="feature-item">Helpline Suggestion</div>
-      </div>
+  <!-- WHY CHOOSE NYAY -->
+  <section class="solution-container" id="why-choose">
+    <h1>Why Choose Nyay?</h1>
+    <div class="solution-box">
+      <div class="solution-header">🌍 Multilingual Support</div>
+      <p>Supports legal queries in Hindi, Odia, Tamil, Bengali, Telugu, and more.</p>
+    </div>
+    <div class="solution-box">
+      <div class="solution-header">🎙️ Voice Interface</div>
+      <p>Enables voice input for citizens with limited literacy or typing skills.</p>
+    </div>
+    <div class="solution-box">
+      <div class="solution-header">🧾 Step-by-Step Advice</div>
+      <p>Generates easy-to-understand legal options based on actual law texts.</p>
+    </div>
+    <div class="solution-box">
+      <div class="solution-header">📱 Works on Mobile</div>
+      <p>Optimized for low bandwidth and older phones.</p>
     </div>
   </section>
 
-  <!-- Footer -->
+  <!-- FEATURES -->
+  <section class="solution-container" id="features">
+    <h1>Features</h1>
+    <div class="solution-box">
+      <div class="solution-header">🗣️ Speech-to-Law Engine</div>
+      <p>Automatically transcribes, translates, and converts voice into legal analysis.</p>
+    </div>
+    <div class="solution-box">
+      <div class="solution-header">🤖 AI Legal Assistant</div>
+      <p>Understands your grievance and gives actionable legal suggestions.</p>
+    </div>
+    <div class="solution-box">
+      <div class="solution-header">📤 PDF Report</div>
+      <p>Downloadable, multilingual report of your case summary and advice.</p>
+    </div>
+    <div class="solution-box">
+      <div class="solution-header">🛰️ Offline Mode</div>
+      <p>Lightweight fallback version usable even in rural low-connectivity zones.</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
   <footer>
     <p>&copy; 2025 Nyay. All Rights Reserved.</p>
   </footer>
 
-  <!-- Language Selection Popup -->
-  <div class="enquiry-popup" id="enquiryPopup">
+  <!-- POPUP -->
+  <div class="enquiry-popup" id="enquiryPopup" style="display: none;">
     <div class="enquiry-box">
       <button class="close-btn" id="closeEnquiry">&times;</button>
       <h3>Select Language</h3>
@@ -88,59 +105,48 @@
     </div>
   </div>
 
-  <!-- Reopen Language Popup Button -->
-  <button id="reopenPopupBtn" title="Change Language">🌐 Change Language</button>
-
   <!-- Scroll to Top -->
   <button id="scrollToTopBtn" title="Go to top">↑</button>
 
-  <!-- JS Scripts -->
+  <!-- Scripts -->
   <script src="/static/js/language.js" defer></script>
   <script src="/static/js/particles.min.js"></script>
   <script>
+    function openPopup() {
+      document.getElementById("enquiryPopup").style.display = "flex";
+    }
+    document.getElementById("closeEnquiry").addEventListener("click", () => {
+      document.getElementById("enquiryPopup").style.display = "none";
+    });
+    // Particles
     window.onload = function () {
       particlesJS("particles-js", {
-        "particles": {
-          "number": { "value": 360, "density": { "enable": true, "value_area": 800 } },
-          "color": { "value": "#a855f7" },
-          "shape": { "type": "circle" },
-          "opacity": {
-            "value": 0.6,
-            "random": true,
-            "anim": { "enable": true, "speed": 1, "opacity_min": 0.1 }
+        particles: {
+          number: { value: 600, density: { enable: true, value_area: 800 } },
+          color: { value: "#60a5fa" },
+          shape: { type: "circle" },
+          opacity: { value: 0.4, random: true },
+          size: { value: 3, random: true },
+          line_linked: {
+            enable: true,
+            distance: 130,
+            color: "#60a5fa",
+            opacity: 0.2,
+            width: 1
           },
-          "size": {
-            "value": 3,
-            "random": true,
-            "anim": { "enable": true, "speed": 4, "size_min": 0.3 }
+          move: { enable: true, speed: 2, out_mode: "bounce" }
+        },
+        interactivity: {
+          events: {
+            onhover: { enable: true, mode: "repulse" },
+            onclick: { enable: true, mode: "push" }
           },
-          "line_linked": {
-            "enable": true,
-            "distance": 130,
-            "color": "#a855f7",
-            "opacity": 0.4,
-            "width": 1
-          },
-          "move": {
-            "enable": true,
-            "speed": 3.5,
-            "direction": "none",
-            "out_mode": "bounce",
-            "bounce": true
+          modes: {
+            repulse: { distance: 50 },
+            push: { particles_nb: 4 }
           }
         },
-        "interactivity": {
-          "detect_on": "canvas",
-          "events": {
-            "onhover": { "enable": true, "mode": "repulse" },
-            "onclick": { "enable": true, "mode": "push" }
-          },
-          "modes": {
-            "repulse": { "distance": 150, "duration": 0.6 },
-            "push": { "particles_nb": 4 }
-          }
-        },
-        "retina_detect": true
+        retina_detect: true
       });
     };
   </script>
