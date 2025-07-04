@@ -94,31 +94,42 @@
 
   <!-- Particle Background Script -->
   <script src="/static/js/particles.min.js"></script>
-  <script>
-    window.onload = function () {
-      particlesJS("particles-js", {
-        particles: {
-          number: { value: 300, density: { enable: true, value_area: 800 } },
-          color: { value: "#60a5fa" },
-          shape: { type: "circle" },
-          opacity: { value: 0.4, random: true },
-          size: { value: 3, random: true },
-          line_linked: { enable: true, distance: 130, color: "#60a5fa", opacity: 0.2, width: 1 },
-          move: { enable: true, speed: 2, out_mode: "bounce" }
+<script>
+  window.onload = function () {
+    particlesJS("particles-js", {
+      particles: {
+        number: { value: 360, density: { enable: true, value_area: 800 } },
+        color: { value: "#60a5fa" },
+        shape: { type: "circle" },
+        opacity: { value: 0.4, random: true },
+        size: { value: 3, random: true },
+        line_linked: {
+          enable: true,
+          distance: 130,
+          color: "#60a5fa",
+          opacity: 0.2,
+          width: 1
         },
-        interactivity: {
-          events: {
-            onhover: { enable: true, mode: "repulse" },
-            onclick: { enable: true, mode: "push" }
-          },
-          modes: {
-            repulse: { distance: 150 },
-            push: { particles_nb: 4 }
-          }
+        move: {
+          enable: true,
+          speed: 2,
+          out_mode: "bounce"
+        }
+      },
+      interactivity: {
+        events: {
+          onhover: { enable: true, mode: "repulse" },
+          onclick: { enable: true, mode: "push" }
         },
-        retina_detect: true
-      });
-    };
-  </script>
+        modes: {
+          repulse: { distance: 50 },  // Reduced from 150 to 50
+          push: { particles_nb: 4 }
+        }
+      },
+      retina_detect: true
+    });
+  };
+</script>
+
 </body>
 </html>
