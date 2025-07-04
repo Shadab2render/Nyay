@@ -1,0 +1,231 @@
+/* === RESET === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background: linear-gradient(to right, #d8e8ff, #f5f7ff);
+  color: #111827;
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* === PARTICLES === */
+#particles-js {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+/* === NAVBAR === */
+.navbar {
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  right: 24px;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12), 0 0 12px rgba(126, 34, 206, 0.15);
+  transition: all 0.3s ease-in-out;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.navbar:hover {
+  transform: scale(1.01);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.18), 0 0 16px rgba(126, 34, 206, 0.3);
+}
+
+.nav-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 14px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #7e22ce;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.navbar-title::before {
+  content: "⚖️";
+  font-size: 22px;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 24px;
+}
+
+.nav-links li a {
+  text-decoration: none;
+  color: #111827;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-links li a:hover {
+  color: #7e22ce;
+}
+
+/* === MOBILE NAV === */
+@media screen and (max-width: 768px) {
+  .navbar {
+    top: 12px;
+    left: 12px;
+    right: 12px;
+    border-radius: 14px;
+    padding: 4px 0;
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    right: 20px;
+    top: 60px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    padding: 10px 20px;
+    z-index: 9;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .nav-links li a {
+    background: rgba(255, 255, 255, 0.4);
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-weight: 600;
+  }
+
+  .menu-toggle {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+  }
+
+  .menu-toggle span {
+    width: 25px;
+    height: 3px;
+    background: #333;
+    border-radius: 2px;
+  }
+}
+
+/* === MAIN CONTAINER === */
+.solution-container {
+  max-width: 880px;
+  margin: 120px auto 60px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(18px);
+  position: relative;
+  z-index: 1;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.solution-container h1 {
+  font-size: 32px;
+  margin-bottom: 20px;
+  color: #1e1e2f;
+  text-align: center;
+  font-weight: 700;
+}
+
+/* === SECTION CARDS === */
+.solution-box {
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 16px;
+  padding: 24px 30px;
+  margin-top: 28px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease;
+}
+
+.solution-box:hover {
+  transform: scale(1.01);
+}
+
+.solution-header {
+  font-weight: 700;
+  color: #4c1d95;
+  font-size: 20px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* === BUTTON === */
+#findBtn {
+  background-color: #7e22ce;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  box-shadow: 0 0 10px rgba(126, 34, 206, 0.5);
+  transition: all 0.3s ease-in-out;
+}
+
+#findBtn:hover {
+  background-color: #6b21a8;
+  transform: scale(1.05);
+}
+
+/* === RESULTS === */
+.result-items {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+  padding-left: 10px;
+}
+
+/* === SCROLL TO TOP === */
+#scrollToTopBtn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 999;
+  background-color: #7e22ce;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 20px;
+  padding: 12px 16px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  display: none;
+}
+
+#scrollToTopBtn:hover {
+  background-color: #6b21a8;
+  transform: scale(1.05);
+}
