@@ -14,6 +14,45 @@ html, body {
   z-index: 1;
 }
 
+.voice-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.loader-container {
+  display: none;
+  margin-right: 14px;
+}
+
+.voice-controls {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#recordBtn {
+  font-size: 1.5rem;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: none;
+  background-color: #6c5ce7;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 6px;
+}
+
+#recordBtn:hover {
+  background-color: #5a4ac8;
+}
+
+#recordStatus {
+  font-size: 0.95rem;
+  color: #ffffff;
+}
+
+
 /* === PARTICLE BACKGROUND === */
 #particles-js {
   position: fixed;
