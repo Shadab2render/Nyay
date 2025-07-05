@@ -251,7 +251,7 @@ def check_status():
 @app.route('/solution')
 def generate_solution():
     import os, requests
-    from openai import OpenAI
+    from together import Together
 
     print("📥 /solution route hit")
 
@@ -265,14 +265,20 @@ def generate_solution():
         print("❗ No grievance found in session")
         return "<h2>Error: No grievance found.</h2><a href='/grievance'>🡸 Back</a>"
 
-    # Step 2: Load reference documents
+    # Step 2: Load top 6 legal documents with ~5333 characters each
     try:
-        with open("documents/cpc.txt", "r", encoding="utf-8") as f1, \
-             open("documents/contract.txt", "r", encoding="utf-8") as f2, \
-             open("documents/ipc.txt", "r", encoding="utf-8") as f3:
-            doc1 = f1.read()
-            doc2 = f2.read()
-            doc3 = f3.read()
+        with open("documents/nyaya.txt", "r", encoding="utf-8") as f1, \
+             open("documents/nagarik.txt", "r", encoding="utf-8") as f2, \
+             open("documents/sakshya.txt", "r", encoding="utf-8") as f3, \
+             open("documents/property.txt", "r", encoding="utf-8") as f4, \
+             open("documents/marriage.txt", "r", encoding="utf-8") as f5, \
+             open("documents/succession.txt", "r", encoding="utf-8") as f6:
+            nyaya = f1.read()[:5333]
+            nagarik = f2.read()[:5333]
+            sakshya = f3.read()[:5333]
+            property_act = f4.read()[:5333]
+            marriage = f5.read()[:5333]
+            succession = f6.read()[:5333]
         print("📚 Legal documents loaded successfully")
     except Exception as e:
         print("❌ Error loading documents:", str(e))
@@ -288,14 +294,23 @@ You will receive official legal document excerpts and a user grievance. Your job
 📚 LEGAL REFERENCES
 =======================
 
---- Code of Civil Procedure (CPC) ---
-{doc1[:4000]}
+--- Bharatiya Nyaya Sanhita (2023) ---
+{nyaya}
 
---- Indian Contract Act ---
-{doc2[:4000]}
+--- Bharatiya Nagarik Suraksha Sanhita (2023) ---
+{nagarik}
 
---- Indian Penal Code (IPC) ---
-{doc3[:4000]}
+--- Bharatiya Sakshya Adhiniyam (2023) ---
+{sakshya}
+
+--- Transfer of Property Act (1882) ---
+{property_act}
+
+--- Hindu Marriage Act (1955) ---
+{marriage}
+
+--- Hindu Succession Act (1956) ---
+{succession}
 
 =======================
 📩 USER GRIEVANCE
@@ -328,11 +343,12 @@ Do NOT add or modify the structure.
 
     print("🧠 Prompt prepared for LLM.")
 
-    # Step 4: Call the LLM
+    # Step 4: Call Together.ai Llama-4 Scout model
     try:
-        print("⚙️ Sending prompt to Together.ai LLM...")
+        client = Together(api_key=os.getenv("TOGETHER_API_KEY"))
+        print("⚙️ Sending prompt to Together.ai Llama-4 Scout...")
         response = client.chat.completions.create(
-            model="meta-llama/Llama-3.3-70B-Instruct-Turbo-Free",
+            model="meta-llama/Llama-4-Scout-17B-16E-Instruct",
             messages=[{"role": "user", "content": prompt}]
         )
         solution_english = response.choices[0].message.content.strip()
@@ -356,19 +372,20 @@ Do NOT add or modify the structure.
             translated = trans_res.json()[0]["translations"][0]["text"]
             print("✅ Translation successful.")
         except Exception as e:
-            print("⚠️ Translation failed:", str(e))
+            print("⚠️ Translation failed. Showing English response.")
             translated = solution_english
     else:
         print("ℹ️ Translation not needed (English selected)")
         translated = solution_english
 
-    # Step 6: Render to template
+    # Step 6: Render the response
     print("📤 Rendering solution.html")
     return render_template("solution.html",
         original_text=solution_english,
         translated_text=translated,
         lang=lang
     )
+
 
 
 @app.route('/help', methods=['GET', 'POST'])
