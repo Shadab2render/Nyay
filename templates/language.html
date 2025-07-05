@@ -166,5 +166,29 @@
   </div>
 </div>
 
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const qrButton = document.getElementById("qrButton");
+    const qrModal = document.getElementById("qrModal");
+    const closeQr = document.querySelector(".close-qr");
+
+    qrButton.addEventListener("click", () => {
+      qrModal.style.display = "flex";
+    });
+
+    closeQr.addEventListener("click", () => {
+      qrModal.style.display = "none";
+    });
+
+    // Optional: Click outside to close
+    window.addEventListener("click", function (e) {
+      if (e.target === qrModal) {
+        qrModal.style.display = "none";
+      }
+    });
+  });
+</script>
+
+
 </body>
 </html>
