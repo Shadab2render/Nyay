@@ -30,77 +30,73 @@ html {
   pointer-events: none;
 }
 
-/* 🟣 Floating QR Button */
 #qrButton {
   position: fixed;
   bottom: 24px;
-  right: 24px;
-  z-index: 999;
-  background: #7e22ce;
+  left: 24px; /* 🔄 changed from right: 24px */
+  background-color: #7e22ce;
   color: white;
   border: none;
-  border-radius: 50%;
-  padding: 14px 16px;
-  font-size: 18px;
+  padding: 12px 14px;
+  font-size: 16px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(126, 34, 206, 0.6);
   cursor: pointer;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  z-index: 100;
   transition: all 0.3s ease;
 }
 
 #qrButton:hover {
-  background: #6b21a8;
+  background-color: #6b21a8;
   transform: scale(1.05);
 }
 
-/* 📦 QR Modal */
 .qr-modal {
   display: none;
   position: fixed;
-  z-index: 9999;
-  top: 0; left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(4px);
+  z-index: 200;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(30, 30, 30, 0.6);
+  backdrop-filter: blur(6px);
   justify-content: center;
   align-items: center;
 }
 
 .qr-modal-content {
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  padding: 24px;
+  background: white;
   border-radius: 16px;
-  max-width: 320px;
+  padding: 30px;
   text-align: center;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
   position: relative;
+  max-width: 350px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
 
 .qr-modal-content h3 {
-  margin-bottom: 16px;
-  font-size: 20px;
+  margin-bottom: 20px;
+  font-size: 18px;
   color: #4c1d95;
 }
 
 .qr-image {
-  width: 220px;
+  width: 240px;
   height: auto;
-  border-radius: 12px;
+  border-radius: 8px;
   border: 1px solid #ddd;
 }
 
-/* ❌ Close Button */
 .close-qr {
   position: absolute;
-  top: 12px;
-  right: 12px;
-  background: transparent;
+  top: 10px;
+  right: 14px;
+  font-size: 22px;
   border: none;
-  font-size: 20px;
-  color: #333;
+  background: transparent;
   cursor: pointer;
+  color: #333;
 }
 
 
