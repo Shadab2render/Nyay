@@ -76,31 +76,34 @@
       {% endif %}
     </p>
   </div>
+
+  <!-- ✅ Continue Button inside container -->
+  <div style="text-align:center; margin-top: 30px;">
+    <a href="/help" class="continue-btn">Continue</a>
+  </div>
 </div>
 
-<div style="text-align:center; margin-top: 30px;">
-  <a href="/help" class="continue-btn">Continue</a>
-</div>
+<!-- 📥 PDF Download Floating Button -->
+<button id="download-pdf" class="pdf-icon-btn" title="Download PDF">📥</button>
 
-  <!-- PDF Download Script -->
-  <button id="download-pdf" class="pdf-icon-btn" title="Download PDF">📥</button>
+<!-- Scripts -->
+<script src="/static/js/solution.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-  <script src="/static/js/solution.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+  document.getElementById("download-pdf").addEventListener("click", function () {
+    const element = document.querySelector(".solution-container");
+    const opt = {
+      margin: 0.4,
+      filename: 'Legal_Solution_{{ session.get("name", "anonymous") }}.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    };
+    html2pdf().set(opt).from(element).save();
+  });
+</script>
 
-  <script>
-    document.getElementById("download-pdf").addEventListener("click", function () {
-      const element = document.querySelector(".solution-container");
-      const opt = {
-        margin: 0.4,
-        filename: 'Legal_Solution_{{ session.get("name", "anonymous") }}.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-      };
-      html2pdf().set(opt).from(element).save();
-    });
-  </script>
 
   <!-- Particle Background Script -->
   <script src="/static/js/particles.min.js"></script>
