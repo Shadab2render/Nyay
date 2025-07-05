@@ -78,6 +78,19 @@
     </p>
   </div>
 
+  <!-- 🕊️ Mediation or Negotiation -->
+<div class="solution-box fade-in">
+  <div class="solution-header">🕊️ Mediation or Negotiation (if applicable)</div>
+  <p>
+    {% if "4." in output %}
+      {{ output.split("4.")[1].strip() }}
+    {% else %}
+      Not Available
+    {% endif %}
+  </p>
+</div>
+
+
   <!-- ✅ Continue Button inside container -->
   <div style="text-align:center; margin-top: 30px;">
     <a href="/help" class="continue-btn">Continue</a>
